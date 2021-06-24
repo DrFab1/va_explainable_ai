@@ -93,7 +93,7 @@ def update_scatter_chart(dims, label):
     [Input("dropdown_features", "value"),
      Input("dropdown_targets", "value")])
 def update_paar_coord_chart(dims, label):
-    fig = px.parallel_coordinates(df, color=label, dimensions=dims,
+    fig = px.parallel_coordinates(df, color=label, dimensions=dims+[label],
                                   color_continuous_scale=px.colors.sequential.Viridis) # make colordynamic dependent on scatter
     return fig
 
