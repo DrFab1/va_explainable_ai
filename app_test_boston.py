@@ -1,4 +1,5 @@
 import dash
+import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
@@ -41,6 +42,13 @@ all_dims = df.columns.tolist()
 app = dash.Dash(__name__)
 
 app.layout = html.Div([
+
+    dash_table.DataTable(
+    data=df.to_dict("records"),
+    columns=[{'id': c, 'name': c} for c in df.columns],
+    page_action='none',
+    style_table={'height': '300px', 'overflowY': 'auto'}
+    ),
     html.H1(children='XAI for Regression'),
     html.H2(children='Dataset Visualization'),
     # TODO: plot table
