@@ -1,5 +1,3 @@
-
-
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -21,14 +19,15 @@ import matplotlib.pyplot as plt
     Later replace this part with loading data from csv.
     (which has to be fully prepared beforehand.)
 """
+
 # data preperation for boston data set
 target = load_boston().target
+
 # re to real
 target = np.multiply(target, 1000)
 target = target.astype(int)
 
 df = pd.DataFrame(load_boston().data, columns=load_boston().feature_names)
-
 df['new_col'] = target
 df = df.rename(columns={"new_col": "Price"})
 
@@ -42,7 +41,7 @@ all_dims = df.columns.tolist()
 app = dash.Dash(__name__)
 
 app.layout = html.Div([
-    html.H1(children='Regression XAI'),
+    html.H1(children='XAI for Regression'),
     html.H2(children='Dataset Visualization'),
     # TODO: plot table
     html.Label(["Select Features to use for regression", dcc.Dropdown(
@@ -120,11 +119,7 @@ def update_waterfall_shap_chart(dims, label):
     plt.savefig('grafic.png')
     plt.close()
 
-    # from PIL import Image
-    # img = Image.open("grafic.png")
-
     image_path = "grafic.png"
-
     encoded_image = base64.b64encode(open(image_path, 'rb').read())
 
     return 'data:image/png;base64,{}'.format(encoded_image.decode())
