@@ -8,19 +8,16 @@ import plotly.express as px
 from sklearn.datasets import load_boston
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
 import shap
 import base64
-from io import BytesIO
-import xgboost as xgb
-from sklearn.linear_model import LinearRegression, Ridge
-import seaborn as sns
+from sklearn.linear_model import LinearRegression
 import numpy as np
 import matplotlib.pyplot as plt
-from keras.utils.np_utils import to_categorical
 
 # -----------------------------------------------------------------------------------
 """
+    Pre-processing
+    
     Later replace this part with loading data from csv.
     (which has to be fully prepared beforehand.)
 """
@@ -38,15 +35,21 @@ df = df.rename(columns={"new_col": "Price"})
 all_dims = df.columns.tolist()
 
 # -----------------------------------------------------------------------------------
+"""
+    Dashboard layout
+"""
 
 app = dash.Dash(__name__)
 
 app.layout = html.Div([
+    html.H1(children='Regression XAI'),
+    html.H2(children='Dataset Visualization'),
+    # TODO: plot table
     html.Label(["Select Features to use for regression", dcc.Dropdown(
         id="dropdown_features",
         options=[{"label": x, "value": x} 
                  for x in all_dims],
-        value=all_dims[:-1],
+        value=all_dims[:6],
         multi=True
     )]),
     html.Label(["Select Target for regression", dcc.Dropdown(
@@ -58,8 +61,14 @@ app.layout = html.Div([
     )]),
     dcc.Graph(id="splom"),
     dcc.Graph(id="parcoord"),
+    html.H2(children='Model Visualization'),
     html.Img(id='waterfall_shap')
 ])
+
+# -----------------------------------------------------------------------------------
+"""
+    Dashboard Components
+"""
 
 
 @app.callback(
@@ -80,6 +89,7 @@ def update_paar_coord_chart(dims, label):
     fig = px.parallel_coordinates(df, color=label, dimensions=dims,
                                   color_continuous_scale=px.colors.sequential.Viridis) # make colordynamic dependent on scatter
     return fig
+
 
 @app.callback(
     Output("waterfall_shap", "src"),
@@ -105,12 +115,13 @@ def update_waterfall_shap_chart(dims, label):
     sample_ind = 18  # what is this lul´´
 
     # plot results
-    #shap.summary_plot(shap_values, X_train, plot_type="bar", show=False)
+    # shap.summary_plot(shap_values, X_train, plot_type="bar", show=False)
     shap.plots.waterfall(shap_values[sample_ind], show=False)
     plt.savefig('grafic.png')
+    plt.close()
 
-    #from PIL import Image
-    #img = Image.open("grafic.png")
+    # from PIL import Image
+    # img = Image.open("grafic.png")
 
     image_path = "grafic.png"
 
@@ -118,7 +129,7 @@ def update_waterfall_shap_chart(dims, label):
 
     return 'data:image/png;base64,{}'.format(encoded_image.decode())
 
-
+# -----------------------------------------------------------------------------------
 
 
 app.run_server(debug=True)
