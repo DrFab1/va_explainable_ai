@@ -2,7 +2,7 @@ import dash
 import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import plotly.express as px
 from sklearn.datasets import load_boston
 import pandas as pd
@@ -12,7 +12,7 @@ import base64
 from sklearn.linear_model import LinearRegression
 import numpy as np
 import matplotlib.pyplot as plt
-
+import io
 # -----------------------------------------------------------------------------------
 """
     Pre-processing
@@ -43,12 +43,33 @@ app = dash.Dash(__name__)
 
 app.layout = html.Div([
 
-    dash_table.DataTable(
-    data=df.to_dict("records"),
-    columns=[{'id': c, 'name': c} for c in df.columns],
-    page_action='none',
-    style_table={'height': '300px', 'overflowY': 'auto'}
+    dcc.Upload(
+        id='upload-data',
+        children=html.Div([
+            'Drag and Drop or ',
+            html.A('Select Files')
+        ]),
+        style={
+            'width': '100%',
+            'height': '60px',
+            'lineHeight': '60px',
+            'borderWidth': '1px',
+            'borderStyle': 'dashed',
+            'borderRadius': '5px',
+            'textAlign': 'center',
+            'margin': '10px'
+        },
+        # Allow multiple files to be uploaded
+        multiple=False
     ),
+
+    dash_table.DataTable(
+                id = "datatable",
+                data=df.to_dict("records"),
+                columns=[{'id': c, 'name': c} for c in df.columns],
+                page_action='none',
+                style_table={'height': '300px', 'overflowY': 'auto'}
+                ),
     html.H1(children='XAI for Regression'),
     html.H2(children='Dataset Visualization'),
     # TODO: plot table
@@ -132,7 +153,38 @@ def update_waterfall_shap_chart(dims, label):
 
     return 'data:image/png;base64,{}'.format(encoded_image.decode())
 
-# -----------------------------------------------------------------------------------
 
+
+def parse_contents(contents, filename, date):
+    content_type, content_string = contents.split(',')
+
+    decoded = base64.b64decode(content_string)
+    try:
+        if 'csv' in filename:
+            # Assume that the user uploaded a CSV file
+            df = pd.read_csv(
+                io.StringIO(decoded.decode('utf-8')))
+
+    except Exception as e:
+        print(e)
+        return None
+    
+    return df
+# -----------------------------------------------------------------------------------
+@app.callback(Output('datatable', 'columns'),
+              Output('datatable', 'data'),
+              Input('upload-data', 'contents'),
+              State('upload-data', 'filename'),
+              State('upload-data', 'last_modified'))
+def update_output(list_of_contents, list_of_names, list_of_dates):
+
+        if list_of_names is not None:
+            
+            df = parse_contents(list_of_contents, list_of_names, list_of_dates)
+            data = df.to_dict("records")
+            columns = [{'id': c, 'name': c} for c in df.columns]
+            
+
+            return columns, data
 
 app.run_server(debug=True)
