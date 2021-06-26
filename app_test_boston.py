@@ -43,6 +43,7 @@ app = dash.Dash(__name__)
 
 app.layout = html.Div([
 
+    html.H1(children='XAI for Regression'),
     dcc.Upload(
         id='upload-data',
         children=html.Div([
@@ -70,7 +71,6 @@ app.layout = html.Div([
                 page_action='none',
                 style_table={'height': '300px', 'overflowY': 'auto'}
                 ),
-    html.H1(children='XAI for Regression'),
     html.H2(children='Dataset Visualization'),
     # TODO: plot table
     html.Label(["Select Features to use for regression", dcc.Dropdown(
@@ -90,7 +90,7 @@ app.layout = html.Div([
     dcc.Graph(id="splom"),
     dcc.Graph(id="parcoord"),
     html.H2(children='Model Visualization'),
-    #html.Img(id='waterfall_shap')
+    html.Img(id='waterfall_shap')
 ])
 
 # -----------------------------------------------------------------------------------
@@ -118,7 +118,6 @@ def update_paar_coord_chart(dims, label):
                                   color_continuous_scale=px.colors.sequential.Viridis) # make colordynamic dependent on scatter
     return fig
 
-"""
 @app.callback(
     Output("waterfall_shap", "src"),
     [Input("dropdown_features", "value"),
@@ -152,8 +151,6 @@ def update_waterfall_shap_chart(dims, label):
     encoded_image = base64.b64encode(open(image_path, 'rb').read())
 
     return 'data:image/png;base64,{}'.format(encoded_image.decode())
-"""
-
 
 
 def parse_contents(contents, filename, date):
