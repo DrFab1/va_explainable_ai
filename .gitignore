@@ -109,7 +109,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-xai_venv
+xai_va_venv
 
 # Spyder project settings
 .spyderproject
@@ -133,3 +133,5 @@ dmypy.json
 .idea
 
 settings.json
+
+*.png
