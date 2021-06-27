@@ -13,6 +13,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import io
 
+# TODO: ca. 3 Beispieldatensets fertig pre-processed als .csv
+# TODO: filter über plots setzt auch globalen filter
+# TODO: fix bevor .csv gedropped wurde (entweder default, oder gar nix laden)
+# TODO: fix neue Daten setzen bei .csv drop
+# TODO: mehr Shap plots
+# TODO: mehr Erklärungen hinzufügen
+# TODO: mehr Daten-vis Plots
+
 # -----------------------------------------------------------------------------------
 #Default examplorary dataset
 
