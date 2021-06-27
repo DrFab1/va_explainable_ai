@@ -173,13 +173,14 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
     if list_of_names is not None:
         df = parse_contents(list_of_contents, list_of_names, list_of_dates)
         df = df.iloc[:1000, :]
-        data = df.to_dict("records")
-        columns = [{'id': c, 'name': c} for c in df.columns]
-        options_f = [{"label": x, "value": x} for x in df.columns.tolist()]
-        value_f = df.columns.tolist()[:6]
-        options_t = [{"label": x, "value": x} for x in df.columns.tolist()]
-        value_t = df.columns.tolist()[-1]
+        
+    data = df.to_dict("records")
+    columns = [{'id': c, 'name': c} for c in df.columns]
+    options_f = [{"label": x, "value": x} for x in df.columns.tolist()]
+    value_f = df.columns.tolist()[:6]
+    options_t = [{"label": x, "value": x} for x in df.columns.tolist()]
+    value_t = df.columns.tolist()[-1]
 
-        return columns, data, options_f, value_f, options_t, value_t
+    return columns, data, options_f, value_f, options_t, value_t
 
 app.run_server(debug=True)
