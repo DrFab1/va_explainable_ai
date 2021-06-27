@@ -16,7 +16,6 @@ import io
 # TODO: ca. 3 Beispieldatensets fertig pre-processed als .csv
 # TODO: filter über plots setzt auch globalen filter
 # TODO: fix bevor .csv gedropped wurde (entweder default, oder gar nix laden)
-# TODO: fix neue Daten setzen bei .csv drop
 # TODO: mehr Shap plots
 # TODO: mehr Erklärungen hinzufügen
 # TODO: mehr Daten-vis Plots
@@ -154,7 +153,7 @@ def update_waterfall_shap_chart(dims, label):
               State('upload-data', 'filename'),
               State('upload-data', 'last_modified'))
 def update_output(list_of_contents, list_of_names, list_of_dates):
-
+    global df
     def parse_contents(contents, filename, date):
         content_type, content_string = contents.split(',')
 
