@@ -172,7 +172,7 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
 
     if list_of_names is not None:
         df = parse_contents(list_of_contents, list_of_names, list_of_dates)
-        df = df.iloc[:1000, :]
+        df = df.sample(1000)
         
     data = df.to_dict("records")
     columns = [{'id': c, 'name': c} for c in df.columns]
