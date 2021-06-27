@@ -4,7 +4,6 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
 import plotly.express as px
-from sklearn.datasets import load_boston
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import shap
@@ -13,26 +12,11 @@ from sklearn.linear_model import LinearRegression
 import numpy as np
 import matplotlib.pyplot as plt
 import io
+
 # -----------------------------------------------------------------------------------
-"""
-    Pre-processing
-    
-    Later replace this part with loading data from csv.
-    (which has to be fully prepared beforehand.)
-"""
+#Default examplorary dataset
 
-# data preperation for boston data set
-target = load_boston().target
-
-# re to real
-target = np.multiply(target, 1000)
-target = target.astype(int)
-
-df = pd.DataFrame(load_boston().data, columns=load_boston().feature_names)
-df['new_col'] = target
-df = df.rename(columns={"new_col": "Price"})
-
-all_dims = df.columns.tolist()
+df = pd.read_csv('data/boston.csv')
 
 # -----------------------------------------------------------------------------------
 """
@@ -65,26 +49,25 @@ app.layout = html.Div([
     ),
 
     dash_table.DataTable(
-                id = "datatable",
+                id="datatable",
                 data=df.to_dict("records"),
                 columns=[{'id': c, 'name': c} for c in df.columns],
                 page_action='none',
                 style_table={'height': '300px', 'overflowY': 'auto'}
                 ),
     html.H2(children='Dataset Visualization'),
-    # TODO: plot table
     html.Label(["Select Features to use for regression", dcc.Dropdown(
         id="dropdown_features",
         options=[{"label": x, "value": x} 
-                 for x in all_dims],
-        value=all_dims[:6],
+                 for x in df.columns.tolist()],
+        value=df.columns.tolist()[:6],
         multi=True
     )]),
     html.Label(["Select Target for regression", dcc.Dropdown(
         id="dropdown_targets",
-        options=[{"label": x, "value": x} 
-                 for x in all_dims],
-        value=all_dims[-1],
+        options=[{"label": x, "value": x}
+                 for x in df.columns.tolist()],
+        value=df.columns.tolist()[-1],
         multi=False
     )]),
     dcc.Graph(id="splom"),
@@ -153,37 +136,43 @@ def update_waterfall_shap_chart(dims, label):
     return 'data:image/png;base64,{}'.format(encoded_image.decode())
 
 
-def parse_contents(contents, filename, date):
-    content_type, content_string = contents.split(',')
-
-    decoded = base64.b64decode(content_string)
-    try:
-        if 'csv' in filename:
-            # Assume that the user uploaded a CSV file
-            df = pd.read_csv(
-                io.StringIO(decoded.decode('utf-8')))
-
-    except Exception as e:
-        print(e)
-        return None
-    
-    return df
-# -----------------------------------------------------------------------------------
 @app.callback(Output('datatable', 'columns'),
               Output('datatable', 'data'),
+              Output('dropdown_features', 'options'),
+              Output('dropdown_features', 'value'),
+              Output('dropdown_targets', 'options'),
+              Output('dropdown_targets', 'value'),
               Input('upload-data', 'contents'),
               State('upload-data', 'filename'),
               State('upload-data', 'last_modified'))
 def update_output(list_of_contents, list_of_names, list_of_dates):
 
-        if list_of_names is not None:
-            
-            df = parse_contents(list_of_contents, list_of_names, list_of_dates)
-            df = df.iloc[:1000, :]
-            data = df.to_dict("records")
-            columns = [{'id': c, 'name': c} for c in df.columns]
-            
+    def parse_contents(contents, filename, date):
+        content_type, content_string = contents.split(',')
 
-            return columns, data
+        decoded = base64.b64decode(content_string)
+        try:
+            if 'csv' in filename:
+                # Assume that the user uploaded a CSV file
+                df = pd.read_csv(
+                    io.StringIO(decoded.decode('utf-8')))
+
+        except Exception as e:
+            print(e)
+            return None
+
+        return df
+
+    if list_of_names is not None:
+        df = parse_contents(list_of_contents, list_of_names, list_of_dates)
+        df = df.iloc[:1000, :]
+        data = df.to_dict("records")
+        columns = [{'id': c, 'name': c} for c in df.columns]
+        options_f = [{"label": x, "value": x} for x in df.columns.tolist()]
+        value_f = df.columns.tolist()[:6]
+        options_t = [{"label": x, "value": x} for x in df.columns.tolist()]
+        value_t = df.columns.tolist()[-1]
+
+        return columns, data, options_f, value_f, options_t, value_t
 
 app.run_server(debug=True)
