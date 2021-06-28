@@ -13,9 +13,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import io
 
-# TODO: ca. 3 Beispieldatensets fertig pre-processed als .csv
+# TODO: 2 weitere Beispieldatensets fertig pre-processed als .csv
 # TODO: filter über plots setzt auch globalen filter
-# TODO: fix bevor .csv gedropped wurde (entweder default, oder gar nix laden)
 # TODO: mehr Shap plots
 # TODO: mehr Erklärungen hinzufügen
 # TODO: mehr Daten-vis Plots
@@ -23,7 +22,7 @@ import io
 # -----------------------------------------------------------------------------------
 #Default examplorary dataset
 
-df = pd.read_csv('data/boston.csv')
+df = pd.read_csv('ready_to_use_data/boston.csv')
 
 # -----------------------------------------------------------------------------------
 """
@@ -36,7 +35,7 @@ app.layout = html.Div([
 
     html.H1(children='XAI for Regression'),
     dcc.Upload(
-        id='upload-data',
+        id='upload-ready_to_use_data',
         children=html.Div([
             'Drag and Drop or ',
             html.A('Select Files')
@@ -140,18 +139,18 @@ def update_waterfall_shap_chart(dims, label):
     image_path = "grafic.png"
     encoded_image = base64.b64encode(open(image_path, 'rb').read())
 
-    return 'data:image/png;base64,{}'.format(encoded_image.decode())
+    return 'ready_to_use_data:image/png;base64,{}'.format(encoded_image.decode())
 
 
 @app.callback(Output('datatable', 'columns'),
-              Output('datatable', 'data'),
+              Output('datatable', 'ready_to_use_data'),
               Output('dropdown_features', 'options'),
               Output('dropdown_features', 'value'),
               Output('dropdown_targets', 'options'),
               Output('dropdown_targets', 'value'),
-              Input('upload-data', 'contents'),
-              State('upload-data', 'filename'),
-              State('upload-data', 'last_modified'))
+              Input('upload-ready_to_use_data', 'contents'),
+              State('upload-ready_to_use_data', 'filename'),
+              State('upload-ready_to_use_data', 'last_modified'))
 def update_output(list_of_contents, list_of_names, list_of_dates):
     global df
     def parse_contents(contents, filename, date):
