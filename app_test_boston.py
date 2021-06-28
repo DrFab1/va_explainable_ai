@@ -9,18 +9,30 @@ from sklearn.model_selection import train_test_split
 import shap
 import base64
 from sklearn.linear_model import LinearRegression
-import numpy as np
 import matplotlib.pyplot as plt
 import io
 
 # TODO: 1 weiteres Beispieldatensets fertig pre-processed als .csv
-# TODO: filter über plots setzt auch globalen filter
+# TODO: filter über plots setzt auch globalen filter für andere Daten-vis plots
 # TODO: mehr Shap plots
 # TODO: mehr Erklärungen hinzufügen
 # TODO: mehr Daten-vis Plots
+# TODO: fix abgeschnittenheit vom shap plot
+
+# TODO: "Information seeking mantra" umsetzen
+"""
+-    The most important rule for visualization of data is the “information seeking mantra” by Ben Shneiderman:
+o    1. overview first (Übersicht zuerst)
+o    2. zoom
+o    3. filter 
+o    4. details on demand (Details auf Abruf)
+o    5. relate: show relationships between data items 
+o    6. history: allow undo/redo 
+o    7. extract: allow extraction of data and query parameters
+"""
 
 # -----------------------------------------------------------------------------------
-#Default examplorary dataset
+# Default exemplary dataset
 
 df = pd.read_csv('ready_to_use_data/boston.csv')
 
@@ -33,7 +45,7 @@ app = dash.Dash(__name__)
 
 app.layout = html.Div([
 
-    html.H1(children='XAI for Regression'),
+    html.H1(children='A Dashboard for showing Explainable AI for Regression Tasks'),
     dcc.Upload(
         id='upload-data',
         children=html.Div([
@@ -84,7 +96,7 @@ app.layout = html.Div([
 
 # -----------------------------------------------------------------------------------
 """
-    Dashboard Components
+    Dashboard Components/Update Functions
 """
 
 
@@ -132,11 +144,16 @@ def update_waterfall_shap_chart(dims, label):
 
     # plot results
     # shap.summary_plot(shap_values, X_train, plot_type="bar", show=False)
-    shap.plots.waterfall(shap_values[sample_ind], show=False)
-    plt.savefig('grafic.png')
+    shap.plots.waterfall(shap_values[sample_ind], show=False, max_display=20)
+    fig = plt.gcf()
+    #fig.set_figheight(6)
+    #fig.set_figwidth(10)
+    plt.xlabel('xlabel', fontsize=8)
+    plt.ylabel('ylabel', fontsize=8)
+    plt.savefig('shap_waterfall.png')
     plt.close()
 
-    image_path = "grafic.png"
+    image_path = "shap_waterfall.png"
     encoded_image = base64.b64encode(open(image_path, 'rb').read())
 
     return 'data:image/png;base64,{}'.format(encoded_image.decode())
@@ -161,14 +178,12 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
         try:
             if 'csv' in filename:
                 # Assume that the user uploaded a CSV file
-                df = pd.read_csv(
-                    io.StringIO(decoded.decode('utf-8')))
+                df = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
+                return df
 
         except Exception as e:
             print(e)
             return None
-
-        return df
 
     if list_of_names is not None:
         df = parse_contents(list_of_contents, list_of_names, list_of_dates)
