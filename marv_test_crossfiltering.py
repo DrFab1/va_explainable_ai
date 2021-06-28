@@ -77,6 +77,5 @@ def callback(selection1, selection2, selection3):
             get_figure(df, "Col 3", "Col 4", selectedpoints, selection2),
             get_figure(df, "Col 5", "Col 6", selectedpoints, selection3)]
 
-
 if __name__ == '__main__':
     app.run_server(debug=True)
