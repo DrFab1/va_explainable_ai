@@ -35,7 +35,7 @@ app.layout = html.Div([
 
     html.H1(children='XAI for Regression'),
     dcc.Upload(
-        id='upload-ready_to_use_data',
+        id='upload-data',
         children=html.Div([
             'Drag and Drop or ',
             html.A('Select Files')
@@ -143,16 +143,17 @@ def update_waterfall_shap_chart(dims, label):
 
 
 @app.callback(Output('datatable', 'columns'),
-              Output('datatable', 'ready_to_use_data'),
+              Output('datatable', 'data'),
               Output('dropdown_features', 'options'),
               Output('dropdown_features', 'value'),
               Output('dropdown_targets', 'options'),
               Output('dropdown_targets', 'value'),
-              Input('upload-ready_to_use_data', 'contents'),
-              State('upload-ready_to_use_data', 'filename'),
-              State('upload-ready_to_use_data', 'last_modified'))
+              Input('upload-data', 'contents'),
+              State('upload-data', 'filename'),
+              State('upload-data', 'last_modified'))
 def update_output(list_of_contents, list_of_names, list_of_dates):
     global df
+
     def parse_contents(contents, filename, date):
         content_type, content_string = contents.split(',')
 
@@ -181,5 +182,6 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
     value_t = df.columns.tolist()[-1]
 
     return columns, data, options_f, value_f, options_t, value_t
+
 
 app.run_server(debug=True)
