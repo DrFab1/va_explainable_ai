@@ -94,6 +94,7 @@ app.layout = html.Div([
     dcc.Graph(id="parcoord"),
     dcc.Graph(id="violin"),
     html.H2(children='Model Visualization'),
+    dcc.Graph(id="reduction-graph"), 
     html.Img(id='waterfall_shap'),
     html.Img(id='beeswarm')
 ])
@@ -110,7 +111,7 @@ app.layout = html.Div([
      Input("dropdown_targets", "value")])
 def update_scatter_chart(dims, label):
     fig = px.scatter_matrix(df, dimensions=dims+[label], color=label,
-                            color_continuous_scale=px.colors.sequential.Viridis) # make colordynamic dependent on parcoord
+                            color_continuous_scale=px.colors.sequential.Viridis, height=800) # make colordynamic dependent on parcoord
     return fig
 
 
@@ -232,6 +233,25 @@ def update_violin(dims, label):
     fig = px.violin(df, y="Price", box=True, # draw box plot inside the violin
                 points='all', # can be 'outliers', or False
                )
+
+    return fig
+
+
+@app.callback(
+    Output("reduction-graph", "figure"), 
+    [Input("dropdown_features", "value"),
+     Input("dropdown_targets", "value")])
+def update_reduction_chart(feat, label):
+    X = df[feat].values
+    target = df[label].values
+
+    
+   
+    from sklearn.decomposition import PCA
+    X = PCA(n_components=3).fit_transform(X)
+
+    fig = px.scatter_3d(x=X[:,0], y=X[:,1], z=X[:,2],
+                    color=target)
 
     return fig
 
