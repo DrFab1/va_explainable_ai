@@ -13,7 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import io
 
-# TODO: 2 weitere Beispieldatensets fertig pre-processed als .csv
+# TODO: 1 weiteres Beispieldatensets fertig pre-processed als .csv
 # TODO: filter über plots setzt auch globalen filter
 # TODO: mehr Shap plots
 # TODO: mehr Erklärungen hinzufügen
