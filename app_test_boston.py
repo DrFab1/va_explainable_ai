@@ -15,10 +15,9 @@ import io
 from sklearn.decomposition import PCA
 
 # TODO: 1 weiteres Beispieldatensets fertig pre-processed als .csv
-# TODO: filter über plots setzt auch globalen filter für andere Daten-vis plots
 # TODO: mehr Shap plots
 # TODO: mehr Erklärungen hinzufügen
-# TODO: mehr Daten-vis Plots
+# TODO: mehr Daten-vis Plots (oder reichts schon?)
 # TODO: fix abgeschnittenheit vom shap plot
 # TODO: "Information seeking mantra" umsetzen (so story mäßig machen)
 """
