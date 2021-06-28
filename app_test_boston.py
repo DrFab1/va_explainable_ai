@@ -12,7 +12,8 @@ from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 import matplotlib
 import io
-from plotly.tools import mpl_to_plotly
+import plotly.graph_objects as go
+
 
 # TODO: 1 weiteres Beispieldatensets fertig pre-processed als .csv
 # TODO: filter über plots setzt auch globalen filter für andere Daten-vis plots
@@ -91,6 +92,7 @@ app.layout = html.Div([
     )]),
     dcc.Graph(id="splom"),
     dcc.Graph(id="parcoord"),
+    dcc.Graph(id="violin"),
     html.H2(children='Model Visualization'),
     html.Img(id='waterfall_shap'),
     html.Img(id='beeswarm')
@@ -188,7 +190,7 @@ def update_shap_charts(dims, label):
               Input('upload-data', 'contents'),
               State('upload-data', 'filename'),
               State('upload-data', 'last_modified'))
-def update_output(list_of_contents, list_of_names, list_of_dates):
+def update_on_drag_and_drop(list_of_contents, list_of_names, list_of_dates):
     global df
 
     def parse_contents(contents, filename, date):
@@ -221,5 +223,18 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
 
     return columns, data, options_f, value_f, options_t, value_t
 
+@app.callback(
+    Output("violin","figure"),
+    [Input("dropdown_features", "value"),
+     Input("dropdown_targets", "value")])
+def update_violin(dims, label):
 
-app.run_server(debug=True)
+    fig = px.violin(df, y="Price", box=True, # draw box plot inside the violin
+                points='all', # can be 'outliers', or False
+               )
+
+    return fig
+
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
