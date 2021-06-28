@@ -10,7 +10,9 @@ import shap
 import base64
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
+import matplotlib
 import io
+from plotly.tools import mpl_to_plotly
 
 # TODO: 1 weiteres Beispieldatensets fertig pre-processed als .csv
 # TODO: filter über plots setzt auch globalen filter für andere Daten-vis plots
@@ -18,7 +20,6 @@ import io
 # TODO: mehr Erklärungen hinzufügen
 # TODO: mehr Daten-vis Plots
 # TODO: fix abgeschnittenheit vom shap plot
-# TODO: fix bug "out of main thread loop iwas
 # TODO: "Information seeking mantra" umsetzen
 """
 -    The most important rule for visualization of data is the “information seeking mantra” by Ben Shneiderman:
@@ -33,7 +34,7 @@ o    7. extract: allow extraction of data and query parameters
 
 # -----------------------------------------------------------------------------------
 # Default exemplary dataset
-
+matplotlib.use('Agg')
 df = pd.read_csv('ready_to_use_data/boston.csv')
 
 # -----------------------------------------------------------------------------------
@@ -91,7 +92,8 @@ app.layout = html.Div([
     dcc.Graph(id="splom"),
     dcc.Graph(id="parcoord"),
     html.H2(children='Model Visualization'),
-    html.Img(id='waterfall_shap')
+    html.Img(id='waterfall_shap'),
+    html.Img(id='beeswarm')
 ])
 
 # -----------------------------------------------------------------------------------
@@ -121,9 +123,10 @@ def update_paar_coord_chart(dims, label):
 
 @app.callback(
     Output("waterfall_shap", "src"),
+    Output("beeswarm","src"),
     [Input("dropdown_features", "value"),
      Input("dropdown_targets", "value")])
-def update_waterfall_shap_chart(dims, label):
+def update_shap_charts(dims, label):
 
     if label in dims:
         dims.remove(label)
@@ -158,10 +161,22 @@ def update_waterfall_shap_chart(dims, label):
     plt.savefig('shap_waterfall.png')
     plt.close()
 
-    image_path = "shap_waterfall.png"
-    encoded_image = base64.b64encode(open(image_path, 'rb').read())
 
-    return 'data:image/png;base64,{}'.format(encoded_image.decode())
+    shap.plots.beeswarm(shap_values, max_display=14)
+    fig = plt.gcf()
+    fig.set_figheight(6)
+    fig.set_figwidth(10)
+    #plt.xlabel('xlabel', fontsize=8)
+    #plt.ylabel('ylabel', fontsize=8)
+    plt.savefig('shap_beeswarm.png')
+    plt.close()
+
+    image_path_wf = "shap_waterfall.png"
+    encoded_image_wf = base64.b64encode(open(image_path_wf, 'rb').read())
+    image_path_bs = "shap_beeswarm.png"
+    encoded_image_bs = base64.b64encode(open(image_path_bs, 'rb').read())
+
+    return 'data:image/png;base64,{}'.format(encoded_image_wf.decode()), 'data:image/png;base64,{}'.format(encoded_image_bs.decode())
 
 
 @app.callback(Output('datatable', 'columns'),
