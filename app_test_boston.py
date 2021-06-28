@@ -18,7 +18,7 @@ import io
 # TODO: mehr Erklärungen hinzufügen
 # TODO: mehr Daten-vis Plots
 # TODO: fix abgeschnittenheit vom shap plot
-
+# TODO: fix bug "out of main thread loop iwas
 # TODO: "Information seeking mantra" umsetzen
 """
 -    The most important rule for visualization of data is the “information seeking mantra” by Ben Shneiderman:
@@ -105,7 +105,7 @@ app.layout = html.Div([
     [Input("dropdown_features", "value"),
      Input("dropdown_targets", "value")])
 def update_scatter_chart(dims, label):
-    fig = px.scatter_matrix(df, dimensions=dims, color=label,
+    fig = px.scatter_matrix(df, dimensions=dims+[label], color=label,
                             color_continuous_scale=px.colors.sequential.Viridis) # make colordynamic dependent on parcoord
     return fig
 
@@ -124,8 +124,13 @@ def update_paar_coord_chart(dims, label):
     [Input("dropdown_features", "value"),
      Input("dropdown_targets", "value")])
 def update_waterfall_shap_chart(dims, label):
+
+    if label in dims:
+        dims.remove(label)
+
     X = df[dims]
     y = df[label]
+
     # train-test-split
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
@@ -144,12 +149,12 @@ def update_waterfall_shap_chart(dims, label):
 
     # plot results
     # shap.summary_plot(shap_values, X_train, plot_type="bar", show=False)
-    shap.plots.waterfall(shap_values[sample_ind], show=False, max_display=20)
+    shap.plots.waterfall(shap_values[sample_ind], show=False)
     fig = plt.gcf()
-    #fig.set_figheight(6)
-    #fig.set_figwidth(10)
-    plt.xlabel('xlabel', fontsize=8)
-    plt.ylabel('ylabel', fontsize=8)
+    fig.set_figheight(6)
+    fig.set_figwidth(10)
+    #plt.xlabel('xlabel', fontsize=8)
+    #plt.ylabel('ylabel', fontsize=8)
     plt.savefig('shap_waterfall.png')
     plt.close()
 
