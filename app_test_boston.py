@@ -139,7 +139,7 @@ def update_waterfall_shap_chart(dims, label):
     image_path = "grafic.png"
     encoded_image = base64.b64encode(open(image_path, 'rb').read())
 
-    return 'ready_to_use_data:image/png;base64,{}'.format(encoded_image.decode())
+    return 'data:image/png;base64,{}'.format(encoded_image.decode())
 
 
 @app.callback(Output('datatable', 'columns'),
@@ -172,7 +172,10 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
 
     if list_of_names is not None:
         df = parse_contents(list_of_contents, list_of_names, list_of_dates)
-        df = df.sample(1000)
+        try:
+            df = df.sample(1000)
+        except ValueError:
+            pass
         
     data = df.to_dict("records")
     columns = [{'id': c, 'name': c} for c in df.columns]
