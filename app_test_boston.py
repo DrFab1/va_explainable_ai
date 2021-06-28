@@ -12,8 +12,7 @@ from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 import matplotlib
 import io
-import plotly.graph_objects as go
-
+from sklearn.decomposition import PCA
 
 # TODO: 1 weiteres Beispieldatensets fertig pre-processed als .csv
 # TODO: filter über plots setzt auch globalen filter für andere Daten-vis plots
@@ -21,7 +20,7 @@ import plotly.graph_objects as go
 # TODO: mehr Erklärungen hinzufügen
 # TODO: mehr Daten-vis Plots
 # TODO: fix abgeschnittenheit vom shap plot
-# TODO: "Information seeking mantra" umsetzen
+# TODO: "Information seeking mantra" umsetzen (so story mäßig machen)
 """
 -    The most important rule for visualization of data is the “information seeking mantra” by Ben Shneiderman:
 o    1. overview first (Übersicht zuerst)
@@ -224,16 +223,13 @@ def update_on_drag_and_drop(list_of_contents, list_of_names, list_of_dates):
 
     return columns, data, options_f, value_f, options_t, value_t
 
+
 @app.callback(
-    Output("violin","figure"),
+    Output("violin", "figure"),
     [Input("dropdown_features", "value"),
      Input("dropdown_targets", "value")])
 def update_violin(dims, label):
-
-    fig = px.violin(df, y="Price", box=True, # draw box plot inside the violin
-                points='all', # can be 'outliers', or False
-               )
-
+    fig = px.violin(df, y=label, box=True, points='all')
     return fig
 
 
@@ -242,17 +238,16 @@ def update_violin(dims, label):
     [Input("dropdown_features", "value"),
      Input("dropdown_targets", "value")])
 def update_reduction_chart(feat, label):
+
+    if label in feat:
+        feat.remove(label)
+
     X = df[feat].values
     target = df[label].values
 
-    
-   
-    from sklearn.decomposition import PCA
     X = PCA(n_components=3).fit_transform(X)
-
-    fig = px.scatter_3d(x=X[:,0], y=X[:,1], z=X[:,2],
-                    color=target)
-
+    fig = px.scatter_3d(x=X[:, 0], y=X[:, 1], z=X[:, 2],
+                        color=target)
     return fig
 
 
