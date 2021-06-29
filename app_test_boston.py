@@ -14,10 +14,9 @@ import matplotlib
 import io
 from sklearn.decomposition import PCA
 
-# TODO: 1 weiteres Beispieldatensets fertig pre-processed als .csv
 # TODO: mehr Shap plots
 # TODO: mehr Erklärungen hinzufügen
-# TODO: mehr Daten-vis Plots (oder reichts schon?)
+# TODO: Layout
 # TODO: fix abgeschnittenheit vom shap plot
 # TODO: "Information seeking mantra" umsetzen (so story mäßig machen)
 """
