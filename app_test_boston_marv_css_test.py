@@ -18,6 +18,8 @@ import matplotlib
 import io
 from sklearn.decomposition import PCA
 
+plt.rcParams.update({'font.size': 30})
+
 # TODO: mehr Shap plots
 # TODO: mehr Erklärungen hinzufügen
 # TODO: fix abgeschnittenheit vom shap plot
@@ -121,13 +123,16 @@ app.layout = html.Div([
                                     'backgroundColor' : 'rgba(0, 0, 0, 0)'
                                     },
                                 style_cell={
-                                    'backgroundColor' : 'rgba(255,0,0,0.2)',
-                                    'color' : 'white'
+                                    'backgroundColor' : 'rgba(187,187,187,0.2)',
+                                    'color' : 'black',
+                                    'font-family' : 'Helvetica'
                                 },
                                 style_header={
                                     'backgroundColor' : 'rgba(0, 0, 0, 0.5)',
                                     'fontWeight': 'bold',
-                                    'textAlign' : 'center'
+                                    'textAlign' : 'center',
+                                    'color' : 'white',
+                                    'font-family' : 'Helvetica'
                                 },
                             )
                         )
@@ -450,8 +455,9 @@ def update_shap_charts(dims, label):
     # shap.summary_plot(shap_values, X_train, plot_type="bar", show=False)
     shap.plots.waterfall(shap_values[sample_ind], show=False)
     fig = plt.gcf()
-    fig.set_figheight(3)
-    fig.set_figwidth(5)
+    fig.set_figheight(5)
+    fig.set_figwidth(8)
+
     #plt.xlabel('xlabel', fontsize=8)
     #plt.ylabel('ylabel', fontsize=8)
     plt.savefig('shap_waterfall.png')
@@ -460,12 +466,13 @@ def update_shap_charts(dims, label):
 
     shap.plots.beeswarm(shap_values, max_display=14)
     fig = plt.gcf()
-    fig.set_figheight(3)
-    fig.set_figwidth(5)
+    fig.set_figheight(5)
+    fig.set_figwidth(8)
     #plt.xlabel('xlabel', fontsize=8)
     #plt.ylabel('ylabel', fontsize=8)
     plt.savefig('shap_beeswarm.png')
     plt.close()
+
 
     image_path_wf = "shap_waterfall.png"
     encoded_image_wf = base64.b64encode(open(image_path_wf, 'rb').read())
@@ -523,7 +530,7 @@ def update_on_drag_and_drop(list_of_contents, list_of_names, list_of_dates):
     [Input("dropdown_features", "value"),
      Input("dropdown_targets", "value")])
 def update_violin(dims, label):
-    fig = px.violin(df, y=label, box=True, points='all').update_layout(
+    fig = px.violin(df, y=label, box=True, points='all', color_discrete_sequence=["magenta"]).update_layout(
                                 template='plotly_dark',
                                 plot_bgcolor= 'rgba(0, 0, 0, 0)',
                                 paper_bgcolor= 'rgba(0, 0, 0, 0)',
