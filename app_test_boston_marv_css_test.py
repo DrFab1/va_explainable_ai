@@ -221,6 +221,25 @@ app.layout = html.Div([
 
             dbc.Row([
                 dbc.Col([
+                    html.Span(
+                        "?",
+                        id="tooltip-target2",
+                        style={
+                           "textDecoration": "underline", 
+                           "cursor": "pointer" 
+                        }
+                    ),
+                    dbc.Tooltip(
+                        "Info for ParaCoord",
+                        target="tooltip-target2",
+                    )
+                ])
+            ]),            
+
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
                      dbc.Card(
                         dbc.CardBody(
                             dcc.Graph(id="violin")
@@ -240,6 +259,39 @@ app.layout = html.Div([
 
             dbc.Row([
                 dbc.Col([
+                    html.Span(
+                        "?",
+                        id="tooltip-target3",
+                        style={
+                           "textDecoration": "underline", 
+                           "cursor": "pointer" 
+                        }
+                    ),
+                    dbc.Tooltip(
+                        "Info for Violin Plot",
+                        target="tooltip-target3",
+                    )
+                ]),
+                dbc.Col([
+                    html.Span(
+                        "?",
+                        id="tooltip-target4",
+                        style={
+                           "textDecoration": "underline", 
+                           "cursor": "pointer" 
+                        }
+                    ),
+                    dbc.Tooltip(
+                        "Info for Reduction Plot",
+                        target="tooltip-target4",
+                    )
+                ])
+            ]),            
+
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
                      dbc.Card(
                         dbc.CardBody(
                             dcc.Graph(id="splom")
@@ -247,6 +299,25 @@ app.layout = html.Div([
                     ) 
                 ])          
             ]),
+
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
+                    html.Span(
+                        "?",
+                        id="tooltip-target5",
+                        style={
+                           "textDecoration": "underline", 
+                           "cursor": "pointer" 
+                        }
+                    ),
+                    dbc.Tooltip(
+                        "Info for Scatter Matrix plot",
+                        target="tooltip-target5",
+                    )
+                ])
+            ]),             
 
             html.Br(),
 
