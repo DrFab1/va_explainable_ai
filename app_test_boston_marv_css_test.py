@@ -18,21 +18,11 @@ import matplotlib
 import io
 from sklearn.decomposition import PCA
 
-# TODO: 1 weiteres Beispieldatensets fertig pre-processed als .csv
 # TODO: mehr Shap plots
 # TODO: mehr Erklärungen hinzufügen
-# TODO: mehr Daten-vis Plots (oder reichts schon?)
 # TODO: fix abgeschnittenheit vom shap plot
 # TODO: "Information seeking mantra" umsetzen (so story mäßig machen)
-"""
--    The most important rule for visualization of data is the “information seeking mantra” by Ben Shneiderman:
-o    1. overview first (Übersicht zuerst)
-o    2. zoom
-o    3. filter 
-o    4. details on demand (Details auf Abruf)
-o    5. relate: show relationships between data items 
-o    6. history: allow undo/redo 
-o    7. extract: allow extraction of data and query parameters
+
 """
 
 # -----------------------------------------------------------------------------------
@@ -547,7 +537,7 @@ def update_reduction_chart(feat, label):
 
     X = PCA(n_components=3).fit_transform(X)
     fig = px.scatter_3d(x=X[:, 0], y=X[:, 1], z=X[:, 2],
-                        color=target).update_layout(
+                        color=target, color_continuous_scale=px.colors.sequential.Bluered).update_layout(
                                 template='plotly_dark',
                                 plot_bgcolor= 'rgba(0, 0, 0, 0)',
                                 paper_bgcolor= 'rgba(0, 0, 0, 0)',
