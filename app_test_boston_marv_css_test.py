@@ -116,9 +116,22 @@ app.layout = html.Div([
                                 data=df.to_dict("records"),
                                 columns=[{'id': c, 'name': c} for c in df.columns],
                                 page_action='none',
-                                style_table={'height': '300px', 'overflowY': 'auto'},
-                                fixed_rows={'headers': True}
-                                )
+                                fixed_rows={'headers': True},
+                                style_table={
+                                    'height': '300px', 
+                                    'overflowY': 'auto',
+                                    'backgroundColor' : 'rgba(0, 0, 0, 0)'
+                                    },
+                                style_cell={
+                                    'backgroundColor' : 'rgba(0, 0, 0, 0)',
+                                    'color' : 'white'
+                                },
+                                style_header={
+                                    'backgroundColor' : 'rgba(0, 0, 0, 0.5)',
+                                    'fontWeight': 'bold',
+                                    'textAlign' : 'center'
+                                },
+                            )
                         )
                     ) 
                 ])
