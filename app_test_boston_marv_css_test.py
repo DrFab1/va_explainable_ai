@@ -16,7 +16,6 @@ import io
 from sklearn.decomposition import PCA
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
-# TODO: add model evaluation card to layout
 # TODO: mehr Erklärungen hinzufügen
 
 """
@@ -373,8 +372,9 @@ app.layout = html.Div([
             dbc.Row([
                 dbc.Col([
                      dbc.Card(
-                        dbc.CardBody(
-                            html.H5(children=mae),
+                        dbc.CardBody(html.Div([
+                            html.H6("Waiting for model evaluation", id='measurements')
+                            ])
                         )
                     ) 
                 ]),
@@ -498,11 +498,10 @@ def update_paar_coord_chart(dims, label):
     Output("bar","src"),
     Output("waterfall_shap", "src"),
     Output("beeswarm","src"),
+    Output("measurements", "children"),
     [Input("dropdown_features", "value"),
      Input("dropdown_targets", "value")])
 def update_shap_charts(dims, label):
-
-    global mae, rmse, r2_score_
 
     if label in dims:
         dims.remove(label)
@@ -533,7 +532,7 @@ def update_shap_charts(dims, label):
     # R2 Score
     r2_score_ = r2_score(y_test, y_pred)
 
-    print(mae, rmse, r2_score_)
+    measurements = ["Mean Absolute Error (MAE)", str(mae), "Root Mean Squared Error (RMSE)", str(rmse), "R2 Score", str(r2_score_)]
 
     # compute the SHAP values for the model
     explainer = shap.Explainer(model.predict, X_test)
@@ -570,7 +569,7 @@ def update_shap_charts(dims, label):
     image_path_bs = "shap_beeswarm.png"
     encoded_image_bs = base64.b64encode(open(image_path_bs, 'rb').read())
 
-    return 'data:image/png;base64,{}'.format(encoded_image_ba.decode()), 'data:image/png;base64,{}'.format(encoded_image_wf.decode()), 'data:image/png;base64,{}'.format(encoded_image_bs.decode())
+    return 'data:image/png;base64,{}'.format(encoded_image_ba.decode()), 'data:image/png;base64,{}'.format(encoded_image_wf.decode()), 'data:image/png;base64,{}'.format(encoded_image_bs.decode()), measurements
 
 
 @app.callback(Output('datatable', 'columns'),
@@ -680,6 +679,7 @@ def toggle_collapse(n, is_open):
     if n:
         return not is_open
     return is_open
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
