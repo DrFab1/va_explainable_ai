@@ -34,6 +34,7 @@ o    7. extract: allow extraction of data and query parameters
 # Default exemplary dataset
 matplotlib.use('Agg')
 df = pd.read_csv('ready_to_use_data/boston.csv')
+mae, rmse, r2_score_ = 0, 0, 0
 
 # -----------------------------------------------------------------------------------
 """
@@ -373,7 +374,7 @@ app.layout = html.Div([
                 dbc.Col([
                      dbc.Card(
                         dbc.CardBody(
-                            html.Img(id='waterfall_shap')
+                            html.H5(children=mae),
                         )
                     ) 
                 ]),
@@ -432,7 +433,7 @@ app.layout = html.Div([
                 dbc.Col([
                      dbc.Card(
                         dbc.CardBody(
-                            
+                            html.Img(id='waterfall_shap')
                         )
                     ) 
                 ])               
@@ -494,12 +495,14 @@ def update_paar_coord_chart(dims, label):
     return fig
 
 @app.callback(
+    Output("bar","src"),
     Output("waterfall_shap", "src"),
     Output("beeswarm","src"),
-    Output("bar","src"),
     [Input("dropdown_features", "value"),
      Input("dropdown_targets", "value")])
 def update_shap_charts(dims, label):
+
+    global mae, rmse, r2_score_
 
     if label in dims:
         dims.remove(label)
@@ -677,7 +680,6 @@ def toggle_collapse(n, is_open):
     if n:
         return not is_open
     return is_open
-
 
 if __name__ == '__main__':
     app.run_server(debug=True)
