@@ -18,8 +18,6 @@ import matplotlib
 import io
 from sklearn.decomposition import PCA
 
-plt.rcParams.update({'font.size': 30})
-
 # TODO: mehr Shap plots
 # TODO: mehr Erklärungen hinzufügen
 # TODO: fix abgeschnittenheit vom shap plot
@@ -265,7 +263,14 @@ app.layout = html.Div([
                 dbc.Col([
                      dbc.Card(
                         dbc.CardBody(
-                            dcc.Graph(id="reduction-graph")
+                            dcc.Graph(
+                                id="reduction-graph",
+                                style={
+                                    'width':'100%',
+                                    'height':'100%'
+                                }
+
+                            )
                         )
                     ) 
                 ])               
@@ -385,6 +390,76 @@ app.layout = html.Div([
                 ])               
             ]),
 
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
+                    html.Span(
+                        "?",
+                        id="tooltip-target6",
+                        style={
+                           "textDecoration": "underline", 
+                           "cursor": "pointer" 
+                        }
+                    ),
+                    dbc.Tooltip(
+                        "Info for Shap plots 1",
+                        target="tooltip-target6",
+                    )
+                ]),
+                dbc.Col([
+                    html.Span(
+                        "?",
+                        id="tooltip-target7",
+                        style={
+                           "textDecoration": "underline", 
+                           "cursor": "pointer" 
+                        }
+                    ),
+                    dbc.Tooltip(
+                        "Info for Shap plots 2",
+                        target="tooltip-target7",
+                    )
+                ])                
+            ]),
+
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
+                     dbc.Card(
+                        dbc.CardBody(
+                            html.Img(id='bar')
+                        )
+                    ) 
+                ]),
+                dbc.Col([
+                     dbc.Card(
+                        dbc.CardBody(
+                            
+                        )
+                    ) 
+                ])               
+            ]),
+
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
+                    html.Span(
+                        "?",
+                        id="tooltip-target8",
+                        style={
+                           "textDecoration": "underline", 
+                           "cursor": "pointer" 
+                        }
+                    ),
+                    dbc.Tooltip(
+                        "Info for Shap plot 3",
+                        target="tooltip-target8",
+                    )
+                ])               
+            ])                       
         ]), color='dark'
     )     
 ])
@@ -425,6 +500,7 @@ def update_paar_coord_chart(dims, label):
 @app.callback(
     Output("waterfall_shap", "src"),
     Output("beeswarm","src"),
+    Output("bar","src"),
     [Input("dropdown_features", "value"),
      Input("dropdown_targets", "value")])
 def update_shap_charts(dims, label):
@@ -448,12 +524,14 @@ def update_shap_charts(dims, label):
     # compute the SHAP values for the linear model
     explainer = shap.Explainer(model.predict, X_test)
     shap_values = explainer(X_train)
+    #    explainer = shap.Explainer(model)
+    #shap_values = explainer.shap_values(X)
 
     sample_ind = 18  # what is this lul´´
 
     # plot results
-    # shap.summary_plot(shap_values, X_train, plot_type="bar", show=False)
     shap.plots.waterfall(shap_values[sample_ind], show=False)
+    #shap.force_plot(explainer.expected_value, shap_values[0,:], X.iloc[0,:], matplotlib=True)
     fig = plt.gcf()
     fig.set_figheight(5)
     fig.set_figwidth(8)
@@ -464,7 +542,7 @@ def update_shap_charts(dims, label):
     plt.close()
 
 
-    shap.plots.beeswarm(shap_values, max_display=14)
+    shap.plots.beeswarm(shap_values)
     fig = plt.gcf()
     fig.set_figheight(5)
     fig.set_figwidth(8)
@@ -473,13 +551,24 @@ def update_shap_charts(dims, label):
     plt.savefig('shap_beeswarm.png')
     plt.close()
 
+    shap.plots.bar(shap_values)
+    fig = plt.gcf()
+    fig.set_figheight(5)
+    fig.set_figwidth(8)
+    #plt.xlabel('xlabel', fontsize=8)
+    #plt.ylabel('ylabel', fontsize=8)
+    plt.savefig('shap_bar.png')
+    plt.close()
 
+
+    image_path_ba = "shap_bar.png"
+    encoded_image_ba = base64.b64encode(open(image_path_ba, 'rb').read())
     image_path_wf = "shap_waterfall.png"
     encoded_image_wf = base64.b64encode(open(image_path_wf, 'rb').read())
     image_path_bs = "shap_beeswarm.png"
     encoded_image_bs = base64.b64encode(open(image_path_bs, 'rb').read())
 
-    return 'data:image/png;base64,{}'.format(encoded_image_wf.decode()), 'data:image/png;base64,{}'.format(encoded_image_bs.decode())
+    return 'data:image/png;base64,{}'.format(encoded_image_ba.decode()), 'data:image/png;base64,{}'.format(encoded_image_wf.decode()), 'data:image/png;base64,{}'.format(encoded_image_bs.decode())
 
 
 @app.callback(Output('datatable', 'columns'),
@@ -557,6 +646,9 @@ def update_reduction_chart(feat, label):
                                 plot_bgcolor= 'rgba(0, 0, 0, 0)',
                                 paper_bgcolor= 'rgba(0, 0, 0, 0)',
                                 )
+    
+
+
     return fig
 
 @app.callback(
