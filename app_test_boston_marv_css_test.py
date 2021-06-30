@@ -21,7 +21,6 @@ from sklearn.decomposition import PCA
 # TODO: mehr Shap plots
 # TODO: mehr Erklärungen hinzufügen
 # TODO: fix abgeschnittenheit vom shap plot
-# TODO: "Information seeking mantra" umsetzen (so story mäßig machen)
 
 """
 -    The most important rule for visualization of data is the “information seeking mantra” by Ben Shneiderman:
@@ -33,7 +32,6 @@ o    5. relate: show relationships between data items
 o    6. history: allow undo/redo 
 o    7. extract: allow extraction of data and query parameters
 """
-
 
 # -----------------------------------------------------------------------------------
 # Default exemplary dataset
