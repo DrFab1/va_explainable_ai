@@ -1,5 +1,7 @@
 import dash
 from dash_bootstrap_components._components.CardBody import CardBody
+from dash_bootstrap_components._components.Row import Row
+from dash_html_components.Span import Span
 import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
@@ -51,9 +53,32 @@ app.layout = html.Div([
         dbc.CardBody([
             dbc.Row([
                 dbc.Col([
-                    html.H1(children='A Dashboard for showing Explainable AI for Regression Tasks', style={'textAlign': 'center'})  
+                    html.H1(children='A Dashboard for showing Explainable AI for Regression Tasks', 
+                    style={
+                        'textAlign': 'center',
+                        'border-border-bottom':'5px solid black'})  
                 ], width=12)
             ], align='center'),
+
+            html.Br(),
+            
+            dbc.Row([
+                dbc.Col([
+                    dbc.Button(
+                        "About this Dashboard",
+                        id="collapse-button1",
+                        className="mb-3",
+                        color="primary",
+                        n_clicks=0,
+                    ),
+                    dbc.Collapse(
+                        dbc.Card(dbc.CardBody("Insert Info here")),
+                        id="collapse1",
+                        is_open=False,
+                    ),
+                ], width=4,
+                )
+            ]),
 
             html.Br(),
 
@@ -77,66 +102,204 @@ app.layout = html.Div([
                         },
                         multiple=False
                     )
-                ], width=4),
+                ], width=12)
+            ]),
+              
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
+                     dbc.Card(
+                        dbc.CardBody(
+                                dash_table.DataTable(
+                                id="datatable",
+                                data=df.to_dict("records"),
+                                columns=[{'id': c, 'name': c} for c in df.columns],
+                                page_action='none',
+                                style_table={'height': '300px', 'overflowY': 'auto'},
+                                fixed_rows={'headers': True}
+                                )
+                        )
+                    ) 
+                ])
+            ]),
+
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
+                    html.Span(
+                        "?",
+                        id="tooltip-target1",
+                        style={
+                           "textDecoration": "underline", 
+                           "cursor": "pointer" 
+                        }
+                    ),
+                    dbc.Tooltip(
+                        "Info for plot",
+                        target="tooltip-target1",
+                    )
+                ])
+            ]),
+
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
+                    html.H1(children='Dataset Visualization', 
+                    style={
+                        'textAlign': 'left',
+                        'border-border-bottom':'5px solid black'})  
+                ], width=12)
+            ], align='left'),
+
+            html.Br(),
+
+            dbc.Row([
                 dbc.Col([
                     dbc.Button(
-                        "About this Dashboard",
-                        id="collapse-button1",
+                        "About Viz",
+                        id="collapse-button2",
                         className="mb-3",
                         color="primary",
                         n_clicks=0,
                     ),
                     dbc.Collapse(
                         dbc.Card(dbc.CardBody("Insert Info here")),
-                        id="collapse1",
+                        id="collapse2",
                         is_open=False,
                     ),
-                ], width=8)
-            ])
-        ]
-        )
-    ),    
+                ], width=4,
+                )
+            ]),
 
-    dash_table.DataTable(
-                id="datatable",
-                data=df.to_dict("records"),
-                columns=[{'id': c, 'name': c} for c in df.columns],
-                page_action='none',
-                style_table={'height': '300px', 'overflowY': 'auto'},
-                fixed_rows={'headers': True}
-                ),
-    html.H2(children='Dataset Visualization'),
-    html.Label(["Select Features to use for regression", dcc.Dropdown(
-        id="dropdown_features",
-        options=[{"label": x, "value": x} 
-                 for x in df.columns.tolist()],
-        value=df.columns.tolist()[:6],
-        multi=True
-    )]),
-    html.Label(["Select Target for regression", dcc.Dropdown(
-        id="dropdown_targets",
-        options=[{"label": x, "value": x}
-                 for x in df.columns.tolist()],
-        value=df.columns.tolist()[-1],
-        multi=False
-    )]),
+            html.Br(),
 
-    dbc.Row([
-        dbc.Col([
-            dbc.Card(
-                dbc.CardBody(
-                    dcc.Graph(id="splom")
-                    )
-                ) 
-            ])
-        ]),
+            dbc.Row([
+                dbc.Col([
+                     dbc.Card(
+                        dbc.CardBody(
+                            html.Label(["Select Features to use for regression", dcc.Dropdown(
+                                id="dropdown_features",
+                                options=[{"label": x, "value": x} 
+                                        for x in df.columns.tolist()],
+                                value=df.columns.tolist()[:6],
+                                multi=True
+                            )])
+                        )
+                    ) 
+                ]),
+                dbc.Col([
+                     dbc.Card(
+                        dbc.CardBody(
+                            html.Label(["Select Target for regression", dcc.Dropdown(
+                                id="dropdown_targets",
+                                options=[{"label": x, "value": x}
+                                        for x in df.columns.tolist()],
+                                value=df.columns.tolist()[-1],
+                                multi=False
+                            )])
+                        )
+                    ) 
+                ])
+            ]),
 
-    dcc.Graph(id="parcoord"),
-    dcc.Graph(id="violin"),
-    html.H2(children='Model Visualization'),
-    dcc.Graph(id="reduction-graph"), 
-    html.Img(id='waterfall_shap'),
-    html.Img(id='beeswarm')
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
+                     dbc.Card(
+                        dbc.CardBody(
+                            dcc.Graph(id="parcoord")
+                        )
+                    ) 
+                ])
+            ]),
+
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
+                     dbc.Card(
+                        dbc.CardBody(
+                            dcc.Graph(id="violin")
+                        )
+                    ) 
+                ]),
+                dbc.Col([
+                     dbc.Card(
+                        dbc.CardBody(
+                            dcc.Graph(id="reduction-graph")
+                        )
+                    ) 
+                ])               
+            ]),
+
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
+                     dbc.Card(
+                        dbc.CardBody(
+                            dcc.Graph(id="splom")
+                        )
+                    ) 
+                ])          
+            ]),
+
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
+                    html.H1(children='Model Visualization', 
+                    style={
+                        'textAlign': 'left',
+                        'border-border-bottom':'5px solid black'})  
+                ], width=12)
+            ], align='left'),
+
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
+                    dbc.Button(
+                        "About Viz",
+                        id="collapse-button3",
+                        className="mb-3",
+                        color="primary",
+                        n_clicks=0,
+                    ),
+                    dbc.Collapse(
+                        dbc.Card(dbc.CardBody("Insert Info here")),
+                        id="collapse3",
+                        is_open=False,
+                    ),
+                ], width=4,
+                )
+            ]),            
+
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
+                     dbc.Card(
+                        dbc.CardBody(
+                            html.Img(id='waterfall_shap')
+                        )
+                    ) 
+                ]),
+                dbc.Col([
+                     dbc.Card(
+                        dbc.CardBody(
+                            html.Img(id='beeswarm')
+                        )
+                    ) 
+                ])               
+            ]),
+
+        ]), color='dark'
+    )     
 ])
 
 # -----------------------------------------------------------------------------------
@@ -205,8 +368,8 @@ def update_shap_charts(dims, label):
     # shap.summary_plot(shap_values, X_train, plot_type="bar", show=False)
     shap.plots.waterfall(shap_values[sample_ind], show=False)
     fig = plt.gcf()
-    fig.set_figheight(6)
-    fig.set_figwidth(10)
+    fig.set_figheight(3)
+    fig.set_figwidth(5)
     #plt.xlabel('xlabel', fontsize=8)
     #plt.ylabel('ylabel', fontsize=8)
     plt.savefig('shap_waterfall.png')
@@ -215,8 +378,8 @@ def update_shap_charts(dims, label):
 
     shap.plots.beeswarm(shap_values, max_display=14)
     fig = plt.gcf()
-    fig.set_figheight(6)
-    fig.set_figwidth(10)
+    fig.set_figheight(3)
+    fig.set_figwidth(5)
     #plt.xlabel('xlabel', fontsize=8)
     #plt.ylabel('ylabel', fontsize=8)
     plt.savefig('shap_beeswarm.png')
@@ -311,6 +474,26 @@ def update_reduction_chart(feat, label):
     Output("collapse1", "is_open"),
     [Input("collapse-button1", "n_clicks")],
     [State("collapse1", "is_open")],
+)
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
+
+@app.callback(
+    Output("collapse2", "is_open"),
+    [Input("collapse-button2", "n_clicks")],
+    [State("collapse2", "is_open")],
+)
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
+
+@app.callback(
+    Output("collapse3", "is_open"),
+    [Input("collapse-button3", "n_clicks")],
+    [State("collapse3", "is_open")],
 )
 def toggle_collapse(n, is_open):
     if n:
