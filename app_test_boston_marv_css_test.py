@@ -33,7 +33,6 @@ o    7. extract: allow extraction of data and query parameters
 # Default exemplary dataset
 matplotlib.use('Agg')
 df = pd.read_csv('ready_to_use_data/boston.csv')
-mae, rmse, r2_score_ = 0, 0, 0
 
 # -----------------------------------------------------------------------------------
 """
@@ -147,7 +146,7 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "Info for plot",
+                        "This datatable displays the data you have uploaded via the CSV file",
                         target="tooltip-target1"
                     )
                 ])
@@ -240,7 +239,7 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "Info for ParaCoord",
+                        "The Parallel Coordinates Plot is great for comparing multiple variables and showing their relationships",
                         target="tooltip-target2"
                     )
                 ])
@@ -285,7 +284,7 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "Info for Violin Plot",
+                        "The Violin Plot shows the density of your dataset in regards to the target variable",
                         target="tooltip-target3"
                     )
                 ]),
@@ -299,7 +298,7 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "Info for Reduction Plot",
+                        "This Scatter Plot shows the selected features with reduced dimensionality, such that it is displayable in a 3-D view",
                         target="tooltip-target4"
                     )
                 ])
@@ -330,7 +329,7 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "Info for Scatter Matrix plot",
+                        "This Scatter Plot Matrix displays all combinations of the selected features/target. It shows the relationship between each attributes. Correlations can be seen here very easily",
                         target="tooltip-target5"
                     )
                 ])
@@ -601,7 +600,7 @@ def update_on_drag_and_drop(list_of_contents, list_of_names, list_of_dates):
     if list_of_names is not None:
         df = parse_contents(list_of_contents, list_of_names, list_of_dates)
         try:
-            df = df.sample(1000)
+            df = df.sample(5000)
         except ValueError:
             pass
         
