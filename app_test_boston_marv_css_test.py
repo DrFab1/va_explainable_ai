@@ -24,6 +24,16 @@ from sklearn.decomposition import PCA
 # TODO: "Information seeking mantra" umsetzen (so story mäßig machen)
 
 """
+-    The most important rule for visualization of data is the “information seeking mantra” by Ben Shneiderman:
+o    1. overview first (Übersicht zuerst)
+o    2. zoom
+o    3. filter 
+o    4. details on demand (Details auf Abruf)
+o    5. relate: show relationships between data items 
+o    6. history: allow undo/redo 
+o    7. extract: allow extraction of data and query parameters
+"""
+
 
 # -----------------------------------------------------------------------------------
 # Default exemplary dataset
@@ -113,7 +123,7 @@ app.layout = html.Div([
                                     'backgroundColor' : 'rgba(0, 0, 0, 0)'
                                     },
                                 style_cell={
-                                    'backgroundColor' : 'rgba(0, 0, 0, 0)',
+                                    'backgroundColor' : 'rgba(255,0,0,0.2)',
                                     'color' : 'white'
                                 },
                                 style_header={
