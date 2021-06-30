@@ -18,7 +18,6 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
 # TODO: add model evaluation card to layout
 # TODO: mehr Erklärungen hinzufügen
-# TODO: fix abgeschnittenheit vom shap plot
 
 """
 -    The most important rule for visualization of data is the “information seeking mantra” by Ben Shneiderman:
@@ -541,25 +540,25 @@ def update_shap_charts(dims, label):
     sample_ind = 1  # what is this lul´´
 
     # plot results
-    shap.plots.waterfall(shap_values[sample_ind], show=False) # TODO understand this
+    shap.plots.waterfall(shap_values[sample_ind], show=False)  # TODO understand this
     fig = plt.gcf()
     fig.set_figheight(5)
     fig.set_figwidth(8)
-    plt.savefig('shap_waterfall.png')
+    plt.savefig('shap_waterfall.png', bbox_inches = "tight")
     plt.close()
 
     shap.plots.beeswarm(shap_values)
     fig = plt.gcf()
     fig.set_figheight(5)
     fig.set_figwidth(8)
-    plt.savefig('shap_beeswarm.png')
+    plt.savefig('shap_beeswarm.png', bbox_inches = "tight")
     plt.close()
 
     shap.plots.bar(shap_values)
     fig = plt.gcf()
     fig.set_figheight(5)
     fig.set_figwidth(8)
-    plt.savefig('shap_bar.png')
+    plt.savefig('shap_bar.png', bbox_inches = "tight")
     plt.close()
 
     image_path_ba = "shap_bar.png"
@@ -647,10 +646,8 @@ def update_reduction_chart(feat, label):
                                 plot_bgcolor= 'rgba(0, 0, 0, 0)',
                                 paper_bgcolor= 'rgba(0, 0, 0, 0)',
                                 )
-    
-
-
     return fig
+
 
 @app.callback(
     Output("collapse1", "is_open"),
@@ -681,6 +678,7 @@ def toggle_collapse(n, is_open):
     if n:
         return not is_open
     return is_open
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
