@@ -1,7 +1,4 @@
 import dash
-from dash_bootstrap_components._components.CardBody import CardBody
-from dash_bootstrap_components._components.Row import Row
-from dash_html_components.Span import Span
 import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
@@ -17,8 +14,9 @@ import matplotlib.pyplot as plt
 import matplotlib
 import io
 from sklearn.decomposition import PCA
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
-# TODO: mehr Shap plots
+# TODO: add model evaluation card to layout
 # TODO: mehr Erklärungen hinzufügen
 # TODO: fix abgeschnittenheit vom shap plot
 
@@ -521,33 +519,39 @@ def update_shap_charts(dims, label):
     # make prediction
     y_pred = model.predict(X_test)
 
-    # compute the SHAP values for the linear model
+    # General model performance metrics
+
+    # Mean Absolute Error (MAE)
+    # It is measured by taking the average of the absolute difference between actual values and the predictions.
+    mae = mean_absolute_error(y_test, y_pred)
+
+    # Root Mean Squared Error (RMSE)
+    # The Root Mean Square Error is measured by taking the square root of the average of the squared difference between the prediction and the actual value. It represents the sample standard deviation of the differences between predicted values and observed values
+    rmse = mean_squared_error(y_test, y_pred, squared=False)
+
+    # R2 Score
+    r2_score_ = r2_score(y_test, y_pred)
+
+    print(mae, rmse, r2_score_)
+
+    # compute the SHAP values for the model
     explainer = shap.Explainer(model.predict, X_test)
     shap_values = explainer(X_train)
-    #    explainer = shap.Explainer(model)
-    #shap_values = explainer.shap_values(X)
 
-    sample_ind = 18  # what is this lul´´
+    sample_ind = 1  # what is this lul´´
 
     # plot results
-    shap.plots.waterfall(shap_values[sample_ind], show=False)
-    #shap.force_plot(explainer.expected_value, shap_values[0,:], X.iloc[0,:], matplotlib=True)
+    shap.plots.waterfall(shap_values[sample_ind], show=False) # TODO understand this
     fig = plt.gcf()
     fig.set_figheight(5)
     fig.set_figwidth(8)
-
-    #plt.xlabel('xlabel', fontsize=8)
-    #plt.ylabel('ylabel', fontsize=8)
     plt.savefig('shap_waterfall.png')
     plt.close()
-
 
     shap.plots.beeswarm(shap_values)
     fig = plt.gcf()
     fig.set_figheight(5)
     fig.set_figwidth(8)
-    #plt.xlabel('xlabel', fontsize=8)
-    #plt.ylabel('ylabel', fontsize=8)
     plt.savefig('shap_beeswarm.png')
     plt.close()
 
@@ -555,11 +559,8 @@ def update_shap_charts(dims, label):
     fig = plt.gcf()
     fig.set_figheight(5)
     fig.set_figwidth(8)
-    #plt.xlabel('xlabel', fontsize=8)
-    #plt.ylabel('ylabel', fontsize=8)
     plt.savefig('shap_bar.png')
     plt.close()
-
 
     image_path_ba = "shap_bar.png"
     encoded_image_ba = base64.b64encode(open(image_path_ba, 'rb').read())
