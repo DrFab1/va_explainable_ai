@@ -524,7 +524,7 @@ def update_reduction_chart(feat, label):
 
     X = PCA(n_components=3).fit_transform(X)
     fig = px.scatter_3d(x=X[:, 0], y=X[:, 1], z=X[:, 2],
-                        color=target).update_layout(
+                        color=target, color_continuous_scale=px.colors.sequential.Bluered).update_layout(
                                 template='plotly_dark',
                                 plot_bgcolor= 'rgba(0, 0, 0, 0)',
                                 paper_bgcolor= 'rgba(0, 0, 0, 0)',
