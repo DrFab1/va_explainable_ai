@@ -46,7 +46,6 @@ df = pd.read_csv('ready_to_use_data/boston.csv')
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SLATE])
 
 app.layout = html.Div([
-
     dbc.Card(
         dbc.CardBody([
             dbc.Row([
@@ -67,14 +66,14 @@ app.layout = html.Div([
                         id="collapse-button1",
                         className="mb-3",
                         color="primary",
-                        n_clicks=0,
+                        n_clicks=0
                     ),
                     dbc.Collapse(
                         dbc.Card(dbc.CardBody("Insert Info here")),
                         id="collapse1",
-                        is_open=False,
+                        is_open=False
                     ),
-                ], width=4,
+                ], width=4
                 )
             ]),
 
@@ -131,7 +130,7 @@ app.layout = html.Div([
                                     'textAlign' : 'center',
                                     'color' : 'white',
                                     'font-family' : 'Helvetica'
-                                },
+                                }
                             )
                         )
                     ) 
@@ -152,7 +151,7 @@ app.layout = html.Div([
                     ),
                     dbc.Tooltip(
                         "Info for plot",
-                        target="tooltip-target1",
+                        target="tooltip-target1"
                     )
                 ])
             ]),
@@ -177,14 +176,14 @@ app.layout = html.Div([
                         id="collapse-button2",
                         className="mb-3",
                         color="primary",
-                        n_clicks=0,
+                        n_clicks=0
                     ),
                     dbc.Collapse(
                         dbc.Card(dbc.CardBody("Insert Info here")),
                         id="collapse2",
-                        is_open=False,
+                        is_open=False
                     ),
-                ], width=4,
+                ], width=4
                 )
             ]),
 
@@ -245,7 +244,7 @@ app.layout = html.Div([
                     ),
                     dbc.Tooltip(
                         "Info for ParaCoord",
-                        target="tooltip-target2",
+                        target="tooltip-target2"
                     )
                 ])
             ]),            
@@ -290,7 +289,7 @@ app.layout = html.Div([
                     ),
                     dbc.Tooltip(
                         "Info for Violin Plot",
-                        target="tooltip-target3",
+                        target="tooltip-target3"
                     )
                 ]),
                 dbc.Col([
@@ -304,7 +303,7 @@ app.layout = html.Div([
                     ),
                     dbc.Tooltip(
                         "Info for Reduction Plot",
-                        target="tooltip-target4",
+                        target="tooltip-target4"
                     )
                 ])
             ]),            
@@ -335,7 +334,7 @@ app.layout = html.Div([
                     ),
                     dbc.Tooltip(
                         "Info for Scatter Matrix plot",
-                        target="tooltip-target5",
+                        target="tooltip-target5"
                     )
                 ])
             ]),             
@@ -360,14 +359,14 @@ app.layout = html.Div([
                         id="collapse-button3",
                         className="mb-3",
                         color="primary",
-                        n_clicks=0,
+                        n_clicks=0
                     ),
                     dbc.Collapse(
                         dbc.Card(dbc.CardBody("Insert Info here")),
                         id="collapse3",
-                        is_open=False,
+                        is_open=False
                     ),
-                ], width=4,
+                ], width=4
                 )
             ]),            
 
@@ -404,7 +403,7 @@ app.layout = html.Div([
                     ),
                     dbc.Tooltip(
                         "Info for Shap plots 1",
-                        target="tooltip-target6",
+                        target="tooltip-target6"
                     )
                 ]),
                 dbc.Col([
@@ -418,7 +417,7 @@ app.layout = html.Div([
                     ),
                     dbc.Tooltip(
                         "Info for Shap plots 2",
-                        target="tooltip-target7",
+                        target="tooltip-target7"
                     )
                 ])                
             ]),
@@ -456,7 +455,7 @@ app.layout = html.Div([
                     ),
                     dbc.Tooltip(
                         "Info for Shap plot 3",
-                        target="tooltip-target8",
+                        target="tooltip-target8"
                     )
                 ])               
             ])                       
