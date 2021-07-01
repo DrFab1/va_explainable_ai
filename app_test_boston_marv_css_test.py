@@ -373,7 +373,9 @@ app.layout = html.Div([
                 dbc.Col([
                      dbc.Card(
                         dbc.CardBody(html.Div([
-                            html.H6("Waiting for model evaluation", id='measurements')
+                            html.H6("Waiting for model evaluation", id='mae'),
+                            html.H6("Waiting for model evaluation", id='rmse'),
+                            html.H6("Waiting for model evaluation", id='r2_score_')
                             ])
                         )
                     ) 
@@ -531,7 +533,9 @@ def update_paar_coord_chart(dims, label):
     Output("bar","src"),
     Output("waterfall_shap", "src"),
     Output("beeswarm","src"),
-    Output("measurements", "children"),
+    Output("mae", "children"),
+    Output("rmse", "children"),
+    Output("r2_score_", "children"),
     [Input("dropdown_features", "value"),
      Input("dropdown_targets", "value")])
 def update_shap_charts(dims, label):
@@ -556,22 +560,20 @@ def update_shap_charts(dims, label):
 
     # Mean Absolute Error (MAE)
     # It is measured by taking the average of the absolute difference between actual values and the predictions.
-    mae = mean_absolute_error(y_test, y_pred)
+    mae = [round(mean_absolute_error(y_test, y_pred), 2)]
 
     # Root Mean Squared Error (RMSE)
     # The Root Mean Square Error is measured by taking the square root of the average of the squared difference between the prediction and the actual value. It represents the sample standard deviation of the differences between predicted values and observed values
-    rmse = mean_squared_error(y_test, y_pred, squared=False)
+    rmse = [round(mean_squared_error(y_test, y_pred, squared=False), 2)]
 
     # R2 Score
-    r2_score_ = r2_score(y_test, y_pred)
-
-    measurements = ["Mean Absolute Error (MAE)", str(mae), "Root Mean Squared Error (RMSE)", str(rmse), "R2 Score", str(r2_score_)]
+    r2_score_ = [round(r2_score(y_test, y_pred), 2)]
 
     # compute the SHAP values for the model
     explainer = shap.Explainer(model.predict, X_test)
     shap_values = explainer(X_train)
 
-    sample_ind = 1  # what is this lul´´
+    sample_ind = 0  # what is this lul´´
 
     # plot results
     shap.plots.waterfall(shap_values[sample_ind], show=False)  # TODO understand this
@@ -602,7 +604,7 @@ def update_shap_charts(dims, label):
     image_path_bs = "shap_beeswarm.png"
     encoded_image_bs = base64.b64encode(open(image_path_bs, 'rb').read())
 
-    return 'data:image/png;base64,{}'.format(encoded_image_ba.decode()), 'data:image/png;base64,{}'.format(encoded_image_wf.decode()), 'data:image/png;base64,{}'.format(encoded_image_bs.decode()), measurements
+    return 'data:image/png;base64,{}'.format(encoded_image_ba.decode()), 'data:image/png;base64,{}'.format(encoded_image_wf.decode()), 'data:image/png;base64,{}'.format(encoded_image_bs.decode()), mae, rmse, r2_score_
 
 
 @app.callback(Output('datatable', 'columns'),
