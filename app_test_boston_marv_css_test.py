@@ -499,7 +499,22 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "Info for Shap plot 3",
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="SHAP Bar Plot"),
+                                html.H5(children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "The SHAP Variable Importance Plot shows the feature importance in descending order. The more a features contributes to a model, the higher it's Shap value is.",
+                          ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ],
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
                         target="tooltip-target8"
                     )
                 ]),
@@ -547,6 +562,10 @@ def update_scatter_chart(dims, label):
     [Input("dropdown_features", "value"),
      Input("dropdown_targets", "value")])
 def update_paar_coord_chart(dims, label):
+
+    if label in dims:
+        dims.remove(label)
+
     fig = px.parallel_coordinates(df, color=label, dimensions=dims+[label],
                                   color_continuous_scale=px.colors.sequential.Bluered).update_layout(
                                 template='plotly_dark',
@@ -609,14 +628,14 @@ def update_shap_charts(dims, label):
     plt.savefig('shap_waterfall.png', bbox_inches = "tight")
     plt.close()
 
-    shap.plots.beeswarm(shap_values)
+    shap.plots.beeswarm(shap_values, max_display=10)
     fig = plt.gcf()
     fig.set_figheight(5)
     fig.set_figwidth(8)
     plt.savefig('shap_beeswarm.png', bbox_inches = "tight")
     plt.close()
 
-    shap.plots.bar(shap_values)
+    shap.plots.bar(shap_values, max_display=10)
     fig = plt.gcf()
     fig.set_figheight(5)
     fig.set_figwidth(8)
@@ -662,7 +681,7 @@ def update_on_drag_and_drop(list_of_contents, list_of_names, list_of_dates):
     if list_of_names is not None:
         df = parse_contents(list_of_contents, list_of_names, list_of_dates)
         try:
-            df = df.sample(5000)
+            df = df.sample(1000)
         except ValueError:
             pass
         
@@ -705,7 +724,7 @@ def update_reduction_chart(feat, label):
     fig = px.scatter_3d(x=X[:, 0], y=X[:, 1], z=X[:, 2],
                         color=target, color_continuous_scale=px.colors.sequential.Bluered).update_layout(
                                 template='plotly_dark',
-                                plot_bgcolor= 'rgba(0, 0, 0, 0)',
+                                plot_bgcolor= 'rgba(0, 0, 0, 0.5)',
                                 paper_bgcolor= 'rgba(0, 0, 0, 0)',
                                 )
     return fig
