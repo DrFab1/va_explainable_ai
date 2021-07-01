@@ -1,4 +1,5 @@
 import dash
+from dash_bootstrap_components._components.CardBody import CardBody
 import dash_table
 import dash_core_components as dcc
 import dash_html_components as html
@@ -413,11 +414,30 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "Info for Shap plots 2",
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="SHAP Variable Importance Plot"),
+                                html.H5(children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "The SHAP Variable Importance Plot shows all data points in the training set and their respective dimensions on each feature. It provides information about the following aspects:",
+                                html.Li(children="The importance of each feature, with the most important feature at the top."),
+                                html.Li(children="The impact of the data, which can be seen on the horizontal axis. Data in the positive range, is associated with a higher predictive value. Conversely, data in the negative range has a lower predictive value. "),
+                                html.Li(children="The original value of the data, which is indicated by color. Red represents a high value, blue a low value for the respective observation."),
+                                html.Li(children="The correlation of the data with the respective feature. The combination of the original values (color) and the position of the data on the horizontal axis (SHAP value) shows the correlation of a data point with the target variable. For example, a red point with a positive SHAP value means that a high value of this feature has a positive impact on the prediction of the target variable.")
+                            ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ], 
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
                         target="tooltip-target7"
                     )
                 ])                
-            ]),
+            ], align='left'),
 
             html.Br(),
 
@@ -454,7 +474,21 @@ app.layout = html.Div([
                         "Info for Shap plot 3",
                         target="tooltip-target8"
                     )
-                ])               
+                ]),
+                dbc.Col([
+                    html.Span(
+                        "?",
+                        id="tooltip-target9",
+                        style={
+                           "textDecoration": "underline", 
+                           "cursor": "pointer" 
+                        }
+                    ),
+                    dbc.Tooltip(
+                        "Info for Shap plot 4",
+                        target="tooltip-target9"
+                    )
+                ])                
             ])                       
         ]), color='dark'
     )     
