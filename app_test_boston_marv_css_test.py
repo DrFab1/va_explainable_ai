@@ -49,7 +49,7 @@ app.layout = html.Div([
         dbc.CardBody([
             dbc.Row([
                 dbc.Col([
-                    html.H1(children='A Dashboard for showing Explainable AI for Regression Tasks', 
+                    html.H1(children='Explainable AI Dashboard for Regression Tasks', 
                     style={
                         'textAlign': 'center',
                         'border-border-bottom':'5px solid black'})  
@@ -68,11 +68,32 @@ app.layout = html.Div([
                         n_clicks=0
                     ),
                     dbc.Collapse(
-                        dbc.Card(dbc.CardBody("Insert Info here")),
+                        dbc.Card(
+                            dbc.CardBody(
+                                children=[
+                                "Nowadays, Artificial intelligence (AI ) is used in a wide range of application areas. The success of AI applications is ",
+                                "often characterized by their high predictive accuracy. One problem, however, is that the interpretation of the procedure ",
+                                "of many AI methods is not transparent. This creates a black box, whereby AI users cannot understand why and how an AI makes ",
+                                "decisions. To solve this problem, a new branch of research has emerged in recent years. Explainable Artificial Intelligence (XAI) ",
+                                "includes tools and frameworks that enable interpretability of AI models. Based on the transparency gained through XAI, models can ",
+                                "be better understood and thus improved.", 
+                                html.Br(),
+                                html.Br(),
+                                "This dashboard implements various charts and plots that allow visual interpretation of regression models through XAI.", 
+                                "The dashboard is divided into two parts. The first part, Data Exploration, contains visual approaches to describe the" ,
+                                "characteristics of the data set used. The second part, Explainable AI, shows visual approaches using SHAP to better" ,
+                                "understand and interpret the procedure and decisions of the chosen regression models.",
+                                html.Br(),
+                                html.Br(),
+                                "The goal of this dashboard is to introduce users without deep AI knowledge to the topic of XAI with SHAP for", 
+                                "interpreting regression models."
+                                ]
+                                )
+                            ),
                         id="collapse1",
                         is_open=False
                     ),
-                ], width=4
+                ], width=12
                 )
             ]),
 
@@ -175,7 +196,7 @@ app.layout = html.Div([
 
             dbc.Row([
                 dbc.Col([
-                    html.H1(children='Dataset Visualization', 
+                    html.H1(children='Data Exploration', 
                     style={
                         'textAlign': 'left',
                         'border-border-bottom':'5px solid black'})  
@@ -187,7 +208,7 @@ app.layout = html.Div([
             dbc.Row([
                 dbc.Col([
                     dbc.Button(
-                        "About Viz",
+                        "About Data Exploration",
                         id="collapse-button2",
                         className="mb-3",
                         color="primary",
@@ -422,7 +443,7 @@ app.layout = html.Div([
 
             dbc.Row([
                 dbc.Col([
-                    html.H1(children='Model Visualization', 
+                    html.H1(children='Model Explanation using SHAP', 
                     style={
                         'textAlign': 'left',
                         'border-border-bottom':'5px solid black'})  
@@ -434,7 +455,7 @@ app.layout = html.Div([
             dbc.Row([
                 dbc.Col([
                     dbc.Button(
-                        "About Viz",
+                        "About Model Explanation",
                         id="collapse-button3",
                         className="mb-3",
                         color="primary",
@@ -761,8 +782,8 @@ def update_shap_charts(dims, label):
     r2_score_ = [round(r2_score(y_test, y_pred), 2)]
 
     # compute the SHAP values for the model
-    explainer = shap.Explainer(model.predict, X_test)
-    shap_values = explainer(X_train)
+    explainer = shap.Explainer(model.predict, X_train)
+    shap_values = explainer(X_test)
 
     sample_ind = 0  # what is this lul´´
 
