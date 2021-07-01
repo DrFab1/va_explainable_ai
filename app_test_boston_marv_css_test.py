@@ -562,6 +562,10 @@ def update_scatter_chart(dims, label):
     [Input("dropdown_features", "value"),
      Input("dropdown_targets", "value")])
 def update_paar_coord_chart(dims, label):
+
+    if label in dims:
+        dims.remove(label)
+
     fig = px.parallel_coordinates(df, color=label, dimensions=dims+[label],
                                   color_continuous_scale=px.colors.sequential.Bluered).update_layout(
                                 template='plotly_dark',
