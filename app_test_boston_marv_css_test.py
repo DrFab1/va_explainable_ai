@@ -681,7 +681,7 @@ def update_on_drag_and_drop(list_of_contents, list_of_names, list_of_dates):
     if list_of_names is not None:
         df = parse_contents(list_of_contents, list_of_names, list_of_dates)
         try:
-            df = df.sample(5000)
+            df = df.sample(1000)
         except ValueError:
             pass
         
