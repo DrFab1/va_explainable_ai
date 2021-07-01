@@ -880,22 +880,26 @@ def update_violin(dims, label):
     [Input("dropdown_features", "value"),
      Input("dropdown_targets", "value")])
 def update_reduction_chart(feat, label):
+    try:
+        if label in feat:
+            feat.remove(label)
 
-    if label in feat:
-        feat.remove(label)
+        if len(feat) < 3:
+            pass
 
-    X = df[feat].values
-    target = df[label].values
+        X = df[feat].values
+        target = df[label].values
 
-    X = PCA(n_components=3).fit_transform(X)
-    fig = px.scatter_3d(x=X[:, 0], y=X[:, 1], z=X[:, 2],
-                        color=target, color_continuous_scale=px.colors.sequential.Bluered).update_layout(
-                                template='plotly_dark',
-                                plot_bgcolor= 'rgba(0, 0, 0, 0.5)',
-                                paper_bgcolor= 'rgba(0, 0, 0, 0)',
-                                )
-    return fig
-
+        X = PCA(n_components=3).fit_transform(X)
+        fig = px.scatter_3d(x=X[:, 0], y=X[:, 1], z=X[:, 2],
+                            color=target, color_continuous_scale=px.colors.sequential.Bluered).update_layout(
+                                    template='plotly_dark',
+                                    plot_bgcolor= 'rgba(0, 0, 0, 0.5)',
+                                    paper_bgcolor= 'rgba(0, 0, 0, 0)',
+                                    )
+        return fig
+    except:
+        pass
 
 @app.callback(
     Output("collapse1", "is_open"),
