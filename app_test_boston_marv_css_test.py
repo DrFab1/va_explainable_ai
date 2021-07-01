@@ -213,11 +213,22 @@ app.layout = html.Div([
                         n_clicks=0
                     ),
                     dbc.Collapse(
-                        dbc.Card(dbc.CardBody("Insert Info here")),
+                        dbc.Card(
+                            dbc.CardBody(
+                                    children=[
+                                        "Data exploration is used to get a first general idea about the large amount of unstructured data. ",
+                                        "Using initial visualization of the data, characteristics, patterns and points of interest can be identified. ",
+                                        "Important insights could be, for example, data distribution, correlations between samples and target variables, ",
+                                        "as well as the correlation of the samples among each other. In summary, the goal of data exploration is less to ",
+                                        "perform a specific and in-depth data analysis. Rather, it is to get a first impression and a general idea about ",
+                                        "the data. "
+                                    ]
+                                )
+                            ),
                         id="collapse2",
                         is_open=False
                     ),
-                ], width=4
+                ], width=12
                 )
             ]),
 
@@ -460,11 +471,23 @@ app.layout = html.Div([
                         n_clicks=0
                     ),
                     dbc.Collapse(
-                        dbc.Card(dbc.CardBody("Insert Info here")),
+                        dbc.Card(
+                            dbc.CardBody(
+                                    children=[
+                                    "As mentioned earlier, one major problem is that the interpretation of most AI approaches is not ",
+                                    "transparent, which in turn makes it difficult to understand the procedures and decisions of AI models. ",
+                                    "Explainable Artificial Intelligence (XAI) includes tools and frameworks that enable AI models to be ",
+                                    "interpretable. The XAI framework used in this dashboard is based on the so-called Shapleay Values, ",
+                                    "a game theory invented by Lloyd Shapley in 1953. In 2017, Lundberg and Lee published an explainable AI ",
+                                    "framework derived from the Shapley values of LIoyd's game theory. This dashboard presents several XAI ",
+                                    "graphs based on this framework. "
+                                    ]
+                                )
+                            ),
                         id="collapse3",
                         is_open=False
                     ),
-                ], width=4
+                ], width=12
                 )
             ]),            
 
@@ -775,8 +798,8 @@ def update_shap_charts(dims, label):
     r2_score_ = [round(r2_score(y_test, y_pred), 2)]
 
     # compute the SHAP values for the model
-    explainer = shap.Explainer(model.predict, X_train)
-    shap_values = explainer(X_test)
+    explainer = shap.Explainer(model.predict, X_test)
+    shap_values = explainer(X_train)
 
     sample_ind = 0  # what is this lul´´
 
