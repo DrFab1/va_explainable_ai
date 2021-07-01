@@ -724,7 +724,7 @@ def update_reduction_chart(feat, label):
     fig = px.scatter_3d(x=X[:, 0], y=X[:, 1], z=X[:, 2],
                         color=target, color_continuous_scale=px.colors.sequential.Bluered).update_layout(
                                 template='plotly_dark',
-                                plot_bgcolor= 'rgba(0, 0, 0, 0)',
+                                plot_bgcolor= 'rgba(0, 0, 0, 0.5)',
                                 paper_bgcolor= 'rgba(0, 0, 0, 0)',
                                 )
     return fig
