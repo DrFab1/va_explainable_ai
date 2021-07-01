@@ -775,8 +775,8 @@ def update_shap_charts(dims, label):
     r2_score_ = [round(r2_score(y_test, y_pred), 2)]
 
     # compute the SHAP values for the model
-    explainer = shap.Explainer(model.predict, X_test)
-    shap_values = explainer(X_train)
+    explainer = shap.Explainer(model.predict, X_train)
+    shap_values = explainer(X_test)
 
     sample_ind = 0  # what is this lul´´
 
