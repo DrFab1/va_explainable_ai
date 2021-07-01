@@ -71,7 +71,7 @@ app.layout = html.Div([
                         dbc.Card(
                             dbc.CardBody(
                                 children=[
-                                "Nowadays, Artificial intelligence (AI ) is used in a wide range of application areas. The success of AI applications is ",
+                                "Nowadays, Artificial Intelligence (AI) is used in a wide range of applications. The success of AI applications is ",
                                 "often characterized by their high predictive accuracy. One problem, however, is that the interpretation of the procedure ",
                                 "of many AI methods is not transparent. This creates a black box, whereby AI users cannot understand why and how an AI makes ",
                                 "decisions. To solve this problem, a new branch of research has emerged in recent years. Explainable Artificial Intelligence (XAI) ",
@@ -79,9 +79,9 @@ app.layout = html.Div([
                                 "be better understood and thus improved.", 
                                 html.Br(),
                                 html.Br(),
-                                "This dashboard implements various charts and plots that allow visual interpretation of regression models through XAI.", 
-                                "The dashboard is divided into two parts. The first part, Data Exploration, contains visual approaches to describe the" ,
-                                "characteristics of the data set used. The second part, Explainable AI, shows visual approaches using SHAP to better" ,
+                                "This dashboard implements various charts and plots that allow visual interpretation of regression models through XAI. ", 
+                                "The dashboard is divided into two parts. The first part, Data Exploration, contains visual approaches to describe the " ,
+                                "characteristics of the data set used. The second part, Explainable AI, shows visual approaches using SHAP to better " ,
                                 "understand and interpret the procedure and decisions of the chosen regression models.",
                                 html.Br(),
                                 html.Br(),
@@ -176,7 +176,7 @@ app.layout = html.Div([
                                 html.H5(
                                     children='-------------------------------------------------------------------------'),
                                 html.Br(),
-                                "This datatable displays the data you have uploaded via the CSV file",
+                                "This data table displays the data you have uploaded via the CSV file",
                                 ], style={
                                 'textAlign':'left',
                                 }
@@ -387,7 +387,7 @@ app.layout = html.Div([
                                 html.H5(
                                     children='-------------------------------------------------------------------------'),
                                 html.Br(),
-                                "This Scatter Plot shows the selected features with reduced dimensionality, such that it is displayable in a 3-D view",
+                                "This Scatter Plot shows the selected features with reduced dimensionality using PCA, such that it is displayable in a 3-D view",
                                 ], style={
                                 'textAlign':'left',
                                 }
@@ -434,7 +434,7 @@ app.layout = html.Div([
                                 html.H5(
                                     children='-------------------------------------------------------------------------'),
                                 html.Br(),
-                                "This Scatter Plot Matrix displays all combinations of the selected features/target. It shows the relationship between each attributes. Correlations can be seen here very easily",
+                                "This Scatter Plot Matrix displays all combinations of the selected features/target. It shows the relationship between each attribute. Correlations can be seen here very easily",
                                 ], style={
                                 'textAlign':'left',
                                 }
@@ -633,7 +633,7 @@ app.layout = html.Div([
                                 html.H5(
                                     children='-------------------------------------------------------------------------'),
                                 html.Br(),
-                                "The R-Squared Score measures how close the data are to the fitted regression. \nR2 is always between 0 and 100%. A value of 100% indicates that the model explains all the variability of the response data around its mean. 0% means it can explain none of the variability",
+                                "The R-Squared Score measures how close the data are to the fitted regression. \nR2 is always between 0 and 1. A value of 100% indicates that the model explains all the variability of the response data around its mean. 0% means it can explain none of the variability",
 
                             ], style={
                                 'textAlign':'left',
@@ -720,7 +720,7 @@ app.layout = html.Div([
                                 html.H5(children="SHAP Bar Plot"),
                                 html.H5(children='-------------------------------------------------------------------------'),
                                 html.Br(),
-                                "The SHAP Variable Importance Plot shows the feature importance in descending order. The more a features contributes to a model, the higher it's Shap value is.",
+                                "The SHAP Bar Plot shows the feature importance in descending order. The more a feature contributes to a model, the higher it's Shap value is.",
                           ], style={
                                 'textAlign':'left',
                                 }
@@ -750,7 +750,7 @@ app.layout = html.Div([
                                 html.H5(children='-------------------------------------------------------------------------'),
                                 html.Br(),
                                 "The SHAP Waterfall Plot provides detailed information of the model's prediction for a given data point using the given feature values. ", 
-                                "The graph is analyzed from bottom to top. The start value is the average value of the predictions from the entire training data.",
+                                "The graph is analyzed from bottom to top. The start value is the average value of the predictions from the entire training data. ",
                                 "Subsequently, the red values indicate by how much the prediction value of a certain data point is increased by a feature, " ,
                                 "whereas the blue values indicate by how much the prediction value is decreased. The final prediction (the top value: f(x)) " ,
                                 "is the sum of the initial value and the changes due to the individual features. " ,
