@@ -473,7 +473,22 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "Info for Shap plot 3",
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="SHAP Bar Plot"),
+                                html.H5(children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "The SHAP Variable Importance Plot shows the feature importance in descending order. The more a features contributes to a model, the higher it's Shap value is.",
+                          ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ],
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
                         target="tooltip-target8"
                     )
                 ]),
@@ -583,14 +598,14 @@ def update_shap_charts(dims, label):
     plt.savefig('shap_waterfall.png', bbox_inches = "tight")
     plt.close()
 
-    shap.plots.beeswarm(shap_values)
+    shap.plots.beeswarm(shap_values, max_display=10)
     fig = plt.gcf()
     fig.set_figheight(5)
     fig.set_figwidth(8)
     plt.savefig('shap_beeswarm.png', bbox_inches = "tight")
     plt.close()
 
-    shap.plots.bar(shap_values)
+    shap.plots.bar(shap_values, max_display=10)
     fig = plt.gcf()
     fig.set_figheight(5)
     fig.set_figwidth(8)
