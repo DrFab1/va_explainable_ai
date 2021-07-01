@@ -1041,6 +1041,8 @@ def update_reg_plot(plot_feat,feats_reg,target):
                                 template='plotly_dark',
                                 plot_bgcolor= 'rgba(0, 0, 0, 0)',
                                 paper_bgcolor= 'rgba(0, 0, 0, 0)',
+                                xaxis_title=plot_feat,
+                                yaxis_title=target,
                                 )
     fig.add_traces(go.Scatter(
         x=feat_range, y=predictions, 
@@ -1053,8 +1055,6 @@ def update_reg_plot(plot_feat,feats_reg,target):
     )
     
     return fig
-
-
 
 
 if __name__ == '__main__':
