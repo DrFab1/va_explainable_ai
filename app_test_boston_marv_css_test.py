@@ -528,7 +528,28 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "Info for Shap plot 4",
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="SHAP Waterfall Plot"),
+                                html.H5(children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "The SHAP Waterfall Plot provides detailed information of the model's prediction for a given data point using the given feature values.", 
+                                "The graph is analyzed from bottom to top. The start value is the average value of the predictions from the entire training data.",
+                                "Subsequently, the red values indicate by how much the prediction value of a certain data point is increased by a feature," ,
+                                "whereas the blue values indicate by how much the prediction value is decreased. The final prediction (the top value: f(x))" ,
+                                "is the sum of the initial value and the changes due to the individual features." ,
+                                "In addition, the SHAP waterfall plot shows the values of the individual features of the selected data point on the Y-axis.", 
+                                "This enables interpretation of the extent to which different values of the selected features affect the prediction."
+                          ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ],
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
                         target="tooltip-target9"
                     )
                 ])                
@@ -573,7 +594,7 @@ def update_paar_coord_chart(dims, label):
                                 paper_bgcolor= 'rgba(0, 0, 0, 0)',
                                 font=dict(
                                     #family="Courier New, monospace",
-                                    #ize=18,
+                                    #size=18,
                                     #color="RebeccaPurple"
                                     )
                                 ) # make colordynamic dependent on scatter
