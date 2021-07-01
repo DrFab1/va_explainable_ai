@@ -147,7 +147,23 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "This datatable displays the data you have uploaded via the CSV file",
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="Data Table"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "This datatable displays the data you have uploaded via the CSV file",
+                                ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ], 
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
                         target="tooltip-target1"
                     )
                 ])
@@ -240,7 +256,23 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "The Parallel Coordinates Plot is great for comparing multiple variables and showing their relationships",
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="Parallel Coordinates Diagram"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "The Parallel Coordinates Plot is great for comparing multiple variables and showing their relationships",
+                                ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ], 
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
                         target="tooltip-target2"
                     )
                 ])
@@ -285,8 +317,24 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "The Violin Plot shows the density of your dataset in regards to the target variable",
-                        target="tooltip-target3"
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="Violin Plot"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "The Violin Plot shows the density of your dataset in regards to the target variable",
+                                ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ], 
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
+                        target="tooltip-target3"                
                     )
                 ]),
                 dbc.Col([
@@ -299,8 +347,24 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "This Scatter Plot shows the selected features with reduced dimensionality, such that it is displayable in a 3-D view",
-                        target="tooltip-target4"
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="Dimensionality Reduction Scatter Plot"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "This Scatter Plot shows the selected features with reduced dimensionality, such that it is displayable in a 3-D view",
+                                ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ], 
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
+                        target="tooltip-target4",
                     )
                 ])
             ]),            
@@ -330,7 +394,23 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "This Scatter Plot Matrix displays all combinations of the selected features/target. It shows the relationship between each attributes. Correlations can be seen here very easily",
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="Scatter Plot Matrix"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "This Scatter Plot Matrix displays all combinations of the selected features/target. It shows the relationship between each attributes. Correlations can be seen here very easily",
+                                ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ], 
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
                         target="tooltip-target5"
                     )
                 ])
