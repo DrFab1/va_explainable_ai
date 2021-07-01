@@ -377,7 +377,7 @@ app.layout = html.Div([
                                 dbc.Col([
                                     dbc.Card([
                                         dbc.CardBody([
-                                            html.H4(children="Mean Absolut Error (MAE):"),
+                                            html.H4(children="Mean Absolute Error (MAE):"),
                                             html.Br(),
                                             html.H1("Waiting for model evaluation", id='mae')
                                         ])
@@ -428,7 +428,40 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "Info for Shap plots 1",
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="Mean Absolut Error (MAE)"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "The Mean Absolute Error measures the average absolute difference (error) between the predicted values and “true” values.",
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                html.H5(children="Root Mean Squared Error (RMSE)"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "The Root Mean Squared Error also measures the average difference (error) between the predicted values and “true” values. It also is indiffrent to the direction of erros. In comparison to the MAE it is especially useful to detect large errors.",
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                html.H5(children="R-Squared Score (R2)"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "The R-Squared Score measures how close the data are to the fitted regression. \nR2 is always between 0 and 100%. A value of 100% indicates that the model explains all the variability of the response data around its mean. 0% means it can explain none of the variability",
+
+                            ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ],
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
                         target="tooltip-target6"
                     )
                 ]),
@@ -573,7 +606,7 @@ def update_paar_coord_chart(dims, label):
                                 paper_bgcolor= 'rgba(0, 0, 0, 0)',
                                 font=dict(
                                     #family="Courier New, monospace",
-                                    #ize=18,
+                                    #size=18,
                                     #color="RebeccaPurple"
                                     )
                                 ) # make colordynamic dependent on scatter
