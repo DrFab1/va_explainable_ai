@@ -372,10 +372,36 @@ app.layout = html.Div([
             dbc.Row([
                 dbc.Col([
                      dbc.Card(
-                        dbc.CardBody(html.Div([
-                            html.H6("Waiting for model evaluation", id='mae'),
-                            html.H6("Waiting for model evaluation", id='rmse'),
-                            html.H6("Waiting for model evaluation", id='r2_score_')
+                        dbc.CardBody(
+                            dbc.Row([
+                                dbc.Col([
+                                    dbc.Card([
+                                        dbc.CardBody([
+                                            html.H4(children="Mean Absolut Error (MAE):"),
+                                            html.Br(),
+                                            html.H1("Waiting for model evaluation", id='mae')
+                                        ])
+                                    ])
+                                ]),
+                                dbc.Col([
+                                    dbc.Card([
+                                        dbc.CardBody([
+                                            html.H4(children="Root Mean Squared Error (RMSE):"),
+                                            html.Br(),
+                                            html.H1("Waiting for model evaluation", id='rmse')
+                                        ])
+                                    ])                                    
+                                ]),
+                                dbc.Col([
+                                    dbc.Card([
+                                        dbc.CardBody([
+                                            html.H4(children="R-Squared Score (R2):"),
+                                            html.Br(),
+                                            html.Br(),
+                                            html.H1("Waiting for model evaluation", id='r2_score_')
+                                        ])
+                                    ])                                    
+                                ])                               
                             ])
                         )
                     ) 
