@@ -16,6 +16,8 @@ import matplotlib
 import io
 from sklearn.decomposition import PCA
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+import numpy as np
+import plotly.graph_objects as go
 
 # TODO: mehr Erklärungen hinzufügen
 
@@ -34,7 +36,7 @@ o    7. extract: allow extraction of data and query parameters
 # Default exemplary dataset
 matplotlib.use('Agg')
 df = pd.read_csv('ready_to_use_data/boston.csv')
-
+model = LinearRegression()
 # -----------------------------------------------------------------------------------
 """
     Dashboard layout
@@ -712,7 +714,12 @@ app.layout = html.Div([
                 ])                
             ])                       
         ]), color='dark'
-    )     
+    ),
+    html.Label(["Select Features to use for regression", dcc.Dropdown(
+                                id="reg_features_plot",
+                                multi=False
+                            )]),
+    dcc.Graph(id="reg_plot")    
 ])
 
 # -----------------------------------------------------------------------------------
@@ -778,7 +785,7 @@ def update_shap_charts(dims, label):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
     # Build and train model
-    model = LinearRegression()
+    
     model.fit(X_train, y_train)
 
     # make prediction
@@ -896,22 +903,26 @@ def update_violin(dims, label):
     [Input("dropdown_features", "value"),
      Input("dropdown_targets", "value")])
 def update_reduction_chart(feat, label):
+    try:
+        if label in feat:
+            feat.remove(label)
 
-    if label in feat:
-        feat.remove(label)
+        if len(feat) < 3:
+            pass
 
-    X = df[feat].values
-    target = df[label].values
+        X = df[feat].values
+        target = df[label].values
 
-    X = PCA(n_components=3).fit_transform(X)
-    fig = px.scatter_3d(x=X[:, 0], y=X[:, 1], z=X[:, 2],
-                        color=target, color_continuous_scale=px.colors.sequential.Bluered).update_layout(
-                                template='plotly_dark',
-                                plot_bgcolor= 'rgba(0, 0, 0, 0.5)',
-                                paper_bgcolor= 'rgba(0, 0, 0, 0)',
-                                )
-    return fig
-
+        X = PCA(n_components=3).fit_transform(X)
+        fig = px.scatter_3d(x=X[:, 0], y=X[:, 1], z=X[:, 2],
+                            color=target, color_continuous_scale=px.colors.sequential.Bluered).update_layout(
+                                    template='plotly_dark',
+                                    plot_bgcolor= 'rgba(0, 0, 0, 0.5)',
+                                    paper_bgcolor= 'rgba(0, 0, 0, 0)',
+                                    )
+        return fig
+    except:
+        pass
 
 @app.callback(
     Output("collapse1", "is_open"),
@@ -942,6 +953,44 @@ def toggle_collapse(n, is_open):
     if n:
         return not is_open
     return is_open
+
+
+@app.callback(
+    Output('reg_features_plot', 'options'),
+    Output("reg_features_plot","value"),
+    [Input("dropdown_features", "value")])
+def update_reg_dropdown(vals):
+    options = [{"label": val, "value": val} for val in vals]
+    value = vals[0]
+    return options, value
+
+
+@app.callback(
+    Output("reg_plot","figure"),
+    [Input("reg_features_plot","value"),
+    Input("dropdown_features","value"),
+    Input("dropdown_targets","value")]
+)
+def update_reg_plot(plot_feat,feats_reg,target):
+    
+
+    feat_range = np.linspace(df[plot_feat].min(), df[plot_feat].max(), 100)
+    
+    ranges_pred = []
+    for feature in feats_reg:
+        range_x = np.linspace(df[feature].min(), df[feature].max(), 100)
+        range_x = range_x.reshape(1,-1)
+        ranges_pred.append(range_x)
+    
+    combined = np.vstack(ranges_pred).T
+    predictions = model.predict(combined)
+
+    fig = px.scatter(x=df[plot_feat].values, y=df[target], opacity=0.65)
+    fig.add_traces(go.Scatter(x=feat_range, y=predictions, name="Predicted Value", mode="lines"))
+    
+    return fig
+
+
 
 
 if __name__ == '__main__':
