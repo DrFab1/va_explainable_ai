@@ -147,7 +147,23 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "This datatable displays the data you have uploaded via the CSV file",
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="Data Table"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "This datatable displays the data you have uploaded via the CSV file",
+                                ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ], 
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
                         target="tooltip-target1"
                     )
                 ])
@@ -240,7 +256,23 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "The Parallel Coordinates Plot is great for comparing multiple variables and showing their relationships",
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="Parallel Coordinates Diagram"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "The Parallel Coordinates Plot is great for comparing multiple variables and showing their relationships",
+                                ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ], 
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
                         target="tooltip-target2"
                     )
                 ])
@@ -285,8 +317,24 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "The Violin Plot shows the density of your dataset in regards to the target variable",
-                        target="tooltip-target3"
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="Violin Plot"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "The Violin Plot shows the density of your dataset in regards to the target variable",
+                                ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ], 
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
+                        target="tooltip-target3"                
                     )
                 ]),
                 dbc.Col([
@@ -299,8 +347,24 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "This Scatter Plot shows the selected features with reduced dimensionality, such that it is displayable in a 3-D view",
-                        target="tooltip-target4"
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="Dimensionality Reduction Scatter Plot"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "This Scatter Plot shows the selected features with reduced dimensionality, such that it is displayable in a 3-D view",
+                                ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ], 
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
+                        target="tooltip-target4",
                     )
                 ])
             ]),            
@@ -330,7 +394,23 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "This Scatter Plot Matrix displays all combinations of the selected features/target. It shows the relationship between each attributes. Correlations can be seen here very easily",
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="Scatter Plot Matrix"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "This Scatter Plot Matrix displays all combinations of the selected features/target. It shows the relationship between each attributes. Correlations can be seen here very easily",
+                                ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ], 
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
                         target="tooltip-target5"
                     )
                 ])
@@ -377,7 +457,7 @@ app.layout = html.Div([
                                 dbc.Col([
                                     dbc.Card([
                                         dbc.CardBody([
-                                            html.H4(children="Mean Absolut Error (MAE):"),
+                                            html.H4(children="Mean Absolute Error (MAE):"),
                                             html.Br(),
                                             html.H1("Waiting for model evaluation", id='mae')
                                         ])
@@ -428,7 +508,40 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "Info for Shap plots 1",
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="Mean Absolut Error (MAE)"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "The Mean Absolute Error measures the average absolute difference (error) between the predicted values and “true” values.",
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                html.H5(children="Root Mean Squared Error (RMSE)"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "The Root Mean Squared Error also measures the average difference (error) between the predicted values and “true” values. It also is indiffrent to the direction of erros. In comparison to the MAE it is especially useful to detect large errors.",
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                html.H5(children="R-Squared Score (R2)"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "The R-Squared Score measures how close the data are to the fitted regression. \nR2 is always between 0 and 100%. A value of 100% indicates that the model explains all the variability of the response data around its mean. 0% means it can explain none of the variability",
+
+                            ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ],
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
                         target="tooltip-target6"
                     )
                 ]),
@@ -528,7 +641,28 @@ app.layout = html.Div([
                         }
                     ),
                     dbc.Tooltip(
-                        "Info for Shap plot 4",
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="SHAP Waterfall Plot"),
+                                html.H5(children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "The SHAP Waterfall Plot provides detailed information of the model's prediction for a given data point using the given feature values.", 
+                                "The graph is analyzed from bottom to top. The start value is the average value of the predictions from the entire training data.",
+                                "Subsequently, the red values indicate by how much the prediction value of a certain data point is increased by a feature," ,
+                                "whereas the blue values indicate by how much the prediction value is decreased. The final prediction (the top value: f(x))" ,
+                                "is the sum of the initial value and the changes due to the individual features." ,
+                                "In addition, the SHAP waterfall plot shows the values of the individual features of the selected data point on the Y-axis.", 
+                                "This enables interpretation of the extent to which different values of the selected features affect the prediction."
+                          ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ],
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
                         target="tooltip-target9"
                     )
                 ])                
@@ -571,6 +705,11 @@ def update_paar_coord_chart(dims, label):
                                 template='plotly_dark',
                                 plot_bgcolor= 'rgba(0, 0, 0, 0)',
                                 paper_bgcolor= 'rgba(0, 0, 0, 0)',
+                                font=dict(
+                                    #family="Courier New, monospace",
+                                    #size=18,
+                                    #color="RebeccaPurple"
+                                    )
                                 ) # make colordynamic dependent on scatter
     return fig
 
