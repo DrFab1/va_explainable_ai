@@ -498,6 +498,63 @@ app.layout = html.Div([
             dbc.Row([
                 dbc.Col([
                      dbc.Card(
+                        dbc.CardBody([
+                            html.Label(["Select Features to use for regression", 
+                            dcc.Dropdown(
+                                id="reg_features_plot",
+                                multi=False
+                                    )   
+                                ]
+                            ),  
+                            dcc.Graph(id="reg_plot")  
+                            ]
+                        )
+                    ) 
+                ])          
+            ]),
+
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
+                    html.Span(
+                        "?",
+                        id="tooltip-target10",
+                        style={
+                           "textDecoration": "underline", 
+                           "cursor": "pointer" 
+                        }
+                    ),
+                    dbc.Tooltip(
+                        dbc.Card([
+                            dbc.CardBody([
+                                html.H5(children="Regression Plot"),
+                                html.H5(
+                                    children='-------------------------------------------------------------------------'),
+                                html.Br(),
+                                "This plot shows the regression line resulting from the model, which was trained with the features selected above on the given target.", 
+                                "The plot displays one selected feature (dropdown right above the plot) on the x-axis, and the target on the y-axis. ",
+                                "For some features, the line seems to be 'unfitted', however this is because the model might be trained on more than 2 features (a hyperplane), and the plot only shows a line in 2D space.",
+                                ], style={
+                                'textAlign':'left',
+                                }
+                            )
+                        ], 
+                        color='black',
+                        style={
+                                'width':'600px'
+                            }
+                        ),
+                        target="tooltip-target10"
+                    )
+                ])
+            ]),            
+
+            html.Br(),
+
+            dbc.Row([
+                dbc.Col([
+                     dbc.Card(
                         dbc.CardBody(
                             dbc.Row([
                                 dbc.Col([
@@ -714,12 +771,7 @@ app.layout = html.Div([
                 ])                
             ])                       
         ]), color='dark'
-    ),
-    html.Label(["Select Features to use for regression", dcc.Dropdown(
-                                id="reg_features_plot",
-                                multi=False
-                            )]),
-    dcc.Graph(id="reg_plot")    
+    ),  
 ])
 
 # -----------------------------------------------------------------------------------
@@ -985,8 +1037,20 @@ def update_reg_plot(plot_feat,feats_reg,target):
     combined = np.vstack(ranges_pred).T
     predictions = model.predict(combined)
 
-    fig = px.scatter(x=df[plot_feat].values, y=df[target], opacity=0.65)
-    fig.add_traces(go.Scatter(x=feat_range, y=predictions, name="Predicted Value", mode="lines"))
+    fig = px.scatter(x=df[plot_feat].values, y=df[target], color_discrete_sequence=["magenta"], opacity=0.8).update_layout(
+                                template='plotly_dark',
+                                plot_bgcolor= 'rgba(0, 0, 0, 0)',
+                                paper_bgcolor= 'rgba(0, 0, 0, 0)',
+                                )
+    fig.add_traces(go.Scatter(
+        x=feat_range, y=predictions, 
+        name="Predicted Value", 
+        line=dict(
+            color='royalblue', 
+            width=2, 
+            )
+        )
+    )
     
     return fig
 
