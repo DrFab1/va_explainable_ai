@@ -571,6 +571,11 @@ def update_paar_coord_chart(dims, label):
                                 template='plotly_dark',
                                 plot_bgcolor= 'rgba(0, 0, 0, 0)',
                                 paper_bgcolor= 'rgba(0, 0, 0, 0)',
+                                font=dict(
+                                    #family="Courier New, monospace",
+                                    #ize=18,
+                                    #color="RebeccaPurple"
+                                    )
                                 ) # make colordynamic dependent on scatter
     return fig
 
